@@ -318,14 +318,30 @@
           <li>入力欄の下のリポジトリ選択で、STEP1 のリポジトリを選ぶ</li>
         </ol>
         <div class="paste" style="border-left:3px solid var(--bad)">
-          <b style="color:var(--bad)">⚠ ここが今日いちばん詰まるポイントです</b>
-          「Install」の画面で <b>All repositories</b> を選んでください。<br>
-          「Only select repositories」だと、<b>あとで STEP4 の Create PR が 403 で失敗します。</b>
-          リポジトリ一覧には出るのに書き込みだけ拒否される、という分かりにくい詰まり方をします。
-          <br><br>
-          <b>うまくいかないときは、この画面から入れ直すのが確実です</b><br>
-          <a class="btn primary" style="margin-top:8px" href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">Claude を GitHub にインストール ↗</a>
+          <b style="color:var(--bad)">⚠ 「All repositories」を選んでください</b>
+          「Only select repositories」だと、<b>あとで STEP4 が 403 で失敗します。</b>
+          <a class="btn primary" style="margin-top:10px" href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">インストール画面を開く ↗</a>
         </div>
+
+        <details class="expl">
+          <summary>応用｜なぜここで詰まるのか（403が出た人向け）</summary>
+          <div class="body">
+            <p>GitHubには <b>別物の2つ</b>があります。</p>
+            <div class="scroll">
+              <table>
+                <thead><tr><th>タブ</th><th>何を管理するか</th></tr></thead>
+                <tbody>
+                  <tr><td><b>Authorized</b> GitHub Apps</td><td>本人確認・読み取りの<b>認可</b>だけ。Configureボタンは<b>ありません</b></td></tr>
+                  <tr><td><b>Installed</b> GitHub Apps</td><td><b>どのリポジトリに書き込めるか</b>。こちらが本体</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Publicリポジトリは<b>読むだけなら誰でもできる</b>ため、インストールしていなくてもリポジトリは一覧に出ます。
+              そのまま進めて、<b>Create PR の瞬間に初めて 403 で落ちます</b>（<code>Resource not accessible by integration</code>）。</p>
+            <p>直したら、<b>そのまま同じセッションで再実行すれば通ります。</b>開き直す必要はありません。</p>
+          </div>
+        </details>
+
         <p>パソコン側では何も動きません。クラウド上にコピーが用意され、そこでClaudeが作業します。</p>
         <div class="btns"><a class="btn primary" href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code を開く ↗</a></div>
         <div class="done-cond"><b>完了条件</b>　入力欄の下に自分のリポジトリ名が出ている ＋ Repository access が <b>All repositories</b> になっている</div>
@@ -351,13 +367,7 @@
         <div class="code" id="p1">app/page.tsx のトップページを、見出し1つ・説明3行・CTAボタン1つのシンプルな構成に書き換えてください。
 条件：色とフォントは app/globals.css の変数を使う／新しいライブラリは追加しない</div>
         <div class="btns"><button class="btn primary" data-copy="p1">プロンプトをコピー</button></div>
-        <p style="margin-top:16px">送ったあとの流れ：</p>
-        <ol>
-          <li><code>+42 -18</code> のような<b>差分</b>が出る → クリックして中身を見る</li>
-          <li>納得したら <b>Create PR</b></li>
-          <li>GitHubで <b>Merge pull request</b></li>
-          <li>2〜3分後、自分のURLをリロード</li>
-        </ol>
+        <p style="margin-top:16px">送ったあと：<b>差分</b>（<code>+42 -18</code>）が出る → <b>Create PR</b> → GitHubで <b>Merge</b> → 2〜3分後にリロード。</p>
         <div class="done-cond"><b>完了条件</b>　自分の指示で、公開中のサイトが1回変わった</div>
         <label class="check"><input type="checkbox" data-step="s4"> できた</label>
       </div>
@@ -380,23 +390,24 @@
   <div class="wrap">
     <p class="kicker">実践② ｜ 25分</p>
     <h2 class="sec">ここからが本体 ── 3行から、動くツールを立ち上げる</h2>
-    <p class="sub">あなたが書くのは<b>3行だけ（5分）</b>。仮説も要件定義書も実装も、Claude Code がやります。</p>
-    <div class="paste" style="margin-bottom:22px">
-      <b style="color:var(--accent)">この25分で起きること</b>
+    <p class="sub">あなたが書くのは<b>3行だけ</b>。あとはClaudeが順番にやります。</p>
+
+    <div class="paste" style="margin-bottom:26px">
+      <b style="color:var(--accent)">この25分の流れ</b>
       <ol>
-        <li><b>3行</b>を書く（あなた）</li>
-        <li>→ 残りを<b>仮説</b>で埋める（Claude）</li>
-        <li>→ <b>要件定義書</b>を作る（Claude）</li>
-        <li>→ <b>動くツール</b>を実装する（Claude）</li>
-        <li>→ 本番URLに反映（あなたがMergeを1回押すだけ）</li>
+        <li><b>STEP5</b>　3行を書く　　　　　　　<span style="color:var(--sub2)">← あなた（5分）</span></li>
+        <li><b>STEP6</b>　仮説を埋める　　　　　　<span style="color:var(--sub2)">← Claude（3分）</span></li>
+        <li><b>STEP7</b>　要件定義書を作る　　　　<span style="color:var(--sub2)">← Claude（3分）</span></li>
+        <li><b>STEP8</b>　動くツールを実装する　　<span style="color:var(--sub2)">← Claude（9分）</span></li>
+        <li><b>STEP9</b>　本番に出して触る　　　　<span style="color:var(--sub2)">← あなた（5分）</span></li>
       </ol>
-      できあがるのは説明ページではなく、<b>押せる・入力できる・リロードしてもデータが残るツール</b>です。
     </div>
 
+    <!-- ============ STEP 5 ============ -->
     <div class="step" data-k="s5">
-      <div class="step-h"><div class="step-n">5</div><h3>3行だけ書いて、Claudeに渡す</h3><span class="time">5分</span></div>
+      <div class="step-h"><div class="step-n">5</div><h3>3行だけ書く</h3><span class="time">5分</span></div>
       <div class="step-b">
-        <p><b>ここに直接入力してください。</b>入力内容はそのまま Claude への指示になります。<b>GitHubは触りません。</b></p>
+        <p>ここに直接入力してください。<b>GitHubは触りません。</b></p>
 
         <div class="form">
           <div class="fq">
@@ -420,104 +431,93 @@
 
           <div class="form-foot">
             <button class="btn primary" id="copyMd">Claudeへの指示をコピー</button>
-            <button class="btn" id="dlMd">.md で手元に保存</button>
             <button class="btn" id="fillSample">サンプルを入れる</button>
-            <a class="btn" href="files/01_customer.sample.md" download>記入例を見る</a>
+            <button class="btn" id="dlMd">.md で保存</button>
             <span class="saved" id="savedMsg"></span>
           </div>
+        </div>
 
-          <details class="preview" open>
-            <summary>Claudeに送る指示 <code>docs/01_customer.md</code> を更新<span class="cnt" id="pvCnt"></span></summary>
-            <pre id="mdPreview"></pre>
-            <div class="pv-note">
-              <b style="color:var(--accent)">オレンジの部分</b>があなたの入力です。
-              この指示をClaudeに送ると、<code>docs/01_customer.md</code> がこの内容で更新されます。
-              <b>GitHubを手で編集する必要はありません。</b>
+        <p style="margin-top:16px">コピーしたら、<a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> の入力欄に<b>貼って送信するだけ</b>です。</p>
+
+        <details class="preview">
+          <summary>送る内容を確認する<span class="cnt" id="pvCnt"></span></summary>
+          <pre id="mdPreview"></pre>
+          <div class="pv-note"><b style="color:var(--accent)">オレンジの部分</b>があなたの入力です。Claudeが <code>docs/01_customer.md</code> をこの内容で更新します。</div>
+        </details>
+
+        <details class="expl">
+          <summary>応用｜3行の質が、この先どこに効くか</summary>
+          <div class="body">
+            <p>3行と、このあと作られるものは、この対応で繋がっています。<b>元が濃いほど、先が具体的になります。</b></p>
+            <div class="scroll">
+              <table>
+                <thead><tr><th>3行のどこ</th><th>効く先</th></tr></thead>
+                <tbody>
+                  <tr><td>1行目「誰」</td><td>画面の言葉づかい／使う場面</td></tr>
+                  <tr><td><b>2行目「何を・頻度・時間」</b></td><td><b>データ項目と操作</b>　← ここがいちばん効く</td></tr>
+                  <tr><td>3行目「あれば助かる」</td><td>解くこと／<b>完成条件</b></td></tr>
+                </tbody>
+              </table>
             </div>
-          </details>
-        </div>
-
-        <div class="exg">
-          <div class="bad">
-            <span class="lb">惜しい例</span>
-            工務店の社長が、事務作業に時間を取られている。
-            <span class="why">→ 誰か・何の作業か・どれくらいかが無い。要件定義書が一般論になります</span>
+            <div class="exg">
+              <div class="bad">
+                <span class="lb">惜しい</span>
+                工務店の社長が、事務作業に時間を取られている。
+                <span class="why">→ 誰か・何の作業か・どれくらいかが無い。一般論になります</span>
+              </div>
+              <div class="good">
+                <span class="lb">効く</span>
+                〇〇工務店の田中社長が、補助金を調べるのに<b>1件2時間</b>、<b>月5件</b>かけている。
+                <span class="why">→ 数字が入ると、画面の項目と操作がそのまま決まります</span>
+              </div>
+            </div>
+            <p style="margin-top:14px">とはいえ<b>完璧に書こうとしないでください。</b>空欄でも進みます。埋まらなかったところは仮説になり、そのまま宿題になります。</p>
           </div>
-          <div class="good">
-            <span class="lb">効く例</span>
-            〇〇工務店の田中社長が、補助金を調べるのに<b>1件あたり2時間</b>、<b>月に5件</b>かけている。
-            <span class="why">→ 数字が入ると、画面に出す項目と操作がそのまま決まります</span>
-          </div>
-        </div>
+        </details>
 
-        <div class="paste">
-          <b>コピーしたあと：</b><a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> の入力欄に貼って送信するだけです。
-          <ol>
-            <li>Claude が <code>docs/01_customer.md</code> をこの内容で更新します</li>
-            <li>続けて<b>残りを仮説（🔮）で埋めます</b></li>
-          </ol>
-          <b style="color:var(--accent)">GitHubを開いて編集する必要はありません。</b>
-          ファイルの書き換えは全部Claudeがやります。
-        </div>
-
-        <p class="warn" style="margin-top:14px">⚠ 埋まらない欄は空のままで構いません。完璧に書こうとしないでください。残りは次のステップでClaudeが埋めます。</p>
         <div class="done-cond"><b>完了条件</b>　1つでも埋めて、Claudeに指示を送った</div>
         <label class="check"><input type="checkbox" data-step="s5"> できた</label>
       </div>
     </div>
 
+    <!-- ============ STEP 6 ============ -->
     <div class="step" data-k="s6">
-      <div class="step-h"><div class="step-n">6</div><h3>仮説を埋めて、要件定義書まで作らせる</h3><span class="time">5分</span></div>
+      <div class="step-h"><div class="step-n">6</div><h3>仮説を埋めてもらう</h3><span class="time">3分</span></div>
       <div class="step-b">
-        <p>仮説（<code>/kickoff</code>）はSTEP5の指示に含まれているので、<b>自動で続けて実行されます。</b>
-           止まっていたら下の1つ目を、終わっていたら2つ目を打ってください。</p>
+        <p>STEP5の指示に含まれているので、<b>そのまま自動で走ります。</b>止まっていたら、これを打ってください。</p>
         <div class="code" id="p2">/kickoff</div>
-        <div class="btns"><button class="btn" data-copy="p2">コピー（仮説を埋める）</button></div>
-        <div class="code" id="p2b" style="margin-top:12px">/spec</div>
-        <div class="btns"><button class="btn primary" data-copy="p2b">コピー（要件定義書を作る）</button></div>
+        <div class="btns"><button class="btn primary" data-copy="p2">コピー</button></div>
 
-        <p style="margin-top:18px"><b>/kickoff</b> — 3行から仮説を組み立てます。</p>
+        <p style="margin-top:16px">3行から、Claudeが<b>仮説</b>で埋めます。</p>
         <ul>
           <li>その人が今どうやっているか／かかっている時間・費用</li>
           <li>なぜ今まで誰も作らなかったのか</li>
           <li><b>出口の3点</b>（誰が払うか／どう届くか／受け取れるか）</li>
         </ul>
-        <p style="margin-top:14px"><b>/spec</b> — そこから <code>docs/03_spec.md</code>（要件定義書）を作ります。</p>
-        <ul>
-          <li>画面に何が出るか／データ項目／<b>操作は3つまで</b></li>
-          <li>やらないこと／<b>完成条件</b>（見れば判定できる形で3つ）</li>
-        </ul>
-        <div class="btns"><a class="btn" href="files/03_spec.sample.md" download>要件定義書の記入例を見る</a></div>
+
         <div class="done-cond">🔮 が付いた項目は「<b>まだ確かめていないこと</b>」です。<b>これがそのまま宿題になります。</b></div>
 
         <details class="expl">
-          <summary>この <code>/kickoff</code> は何をしているのか（他のプロジェクトでも使いたい方へ）</summary>
+          <summary>応用｜このコマンドを、他のプロジェクトでも使うには</summary>
           <div class="body">
             <p><b><code>/kickoff</code> は魔法ではありません。</b>
-              このリポジトリの中にある
-              <code>.claude/commands/kickoff.md</code> という<b>ただのテキストファイル</b>です。
-              中身は、日本語で書かれた長めの指示文にすぎません。</p>
-            <p>だから <b>今日のテンプレートを離れると、この命令は存在しません。</b>
+              このリポジトリの中にある <code>.claude/commands/kickoff.md</code> という
+              <b>ただのテキストファイル</b>です。中身は日本語で書かれた指示文にすぎません。</p>
+            <p>だから <b>このテンプレートを離れると、この命令は存在しません。</b>
               明日ご自身の事業で新しくプロジェクトを作っても、<code>/kickoff</code> と打っても何も起きません。
-              持ち帰るには、次の3つのどれかをやります。</p>
+              持ち帰るには、次の3つのどれかです。</p>
 
             <div class="way">
               <b>① フォルダごとコピーする（いちばん簡単）</b>
               今日のリポジトリの <code>.claude/commands/</code> を、新しいプロジェクトにコピーするだけ。
-              それで <code>/kickoff</code> も <code>/spec</code> も使えるようになります。
             </div>
-
             <div class="way">
               <b>② Claudeに作らせる</b>
-              新しいプロジェクトで、こう頼みます。<br>
-              <code>.claude/commands/kickoff.md を作ってください。中身は「顧客の3行から仮説を埋めて、
-              埋めた項目に🔮を付ける」という指示です。</code><br>
-              <b>コマンドは自分で増やせます。</b>よく使う指示は、全部これにしておくと毎回打たずに済みます。
+              <code>.claude/commands/kickoff.md を作ってください。中身は〜</code> と頼むだけ。<br>
+              <b>コマンドは自分で増やせます。</b>よく使う指示を全部これにしておくと、毎回打たずに済みます。
             </div>
-
             <div class="way">
               <b>③ コマンドを使わず、中身をそのまま貼る</b>
-              下のボタンで、<b>どのプロジェクトでもそのまま使えるプロンプト</b>をコピーできます。
               テンプレートに依存しないので、これがいちばん確実です。
             </div>
 
@@ -525,7 +525,6 @@
               <button class="btn primary" data-copy="pport1">仮説を埋めるプロンプト（単体版）</button>
               <button class="btn primary" data-copy="pport2">要件定義書を作るプロンプト（単体版）</button>
             </div>
-
             <div class="code" id="pport1" hidden>あなたは事業の壁打ち相手です。以下の3行から、残りをあなたが仮説で埋めてください。
 
 【入力】
@@ -555,7 +554,6 @@
 確かめるべきことを、事業の成否を左右する順に3つだけ。
 「確かめること → 誰に聞くか → そのまま使える質問文」の形で書く。
 ②どう届くか が仮説のままなら、量では取り返せないと明記する。</div>
-
             <div class="code" id="pport2" hidden>上で作った顧客仮説から、25分で作り切れる「動くツール」の要件定義書を書いてください。
 説明ページではなく、触ると動くツールです。
 
@@ -584,57 +582,131 @@
 - この段階ではコードを1行も書かない</div>
 
             <p style="margin-top:16px"><b>今日いちばん持ち帰る価値があるのは、実はここです。</b>
-              「よく使う指示を、ファイルにして置いておける」と分かると、
-              <b>2回目以降のプロジェクトが毎回速くなります。</b></p>
+              「よく使う指示を、ファイルにして置いておける」と分かると、<b>2回目以降が毎回速くなります。</b></p>
           </div>
         </details>
+
         <label class="check"><input type="checkbox" data-step="s6"> できた</label>
       </div>
     </div>
 
+    <!-- ============ STEP 7 ============ -->
     <div class="step" data-k="s7">
-      <div class="step-h"><div class="step-n">7</div><h3>動くツールを実装させる</h3><span class="time">10分</span></div>
+      <div class="step-h"><div class="step-n">7</div><h3>要件定義書を作らせる</h3><span class="time">3分</span></div>
+      <div class="step-b">
+        <p>仮説から、<b>何を作るかの設計図</b>を書かせます。まだコードは書きません。</p>
+        <div class="code" id="p2b">/spec</div>
+        <div class="btns">
+          <button class="btn primary" data-copy="p2b">コピー</button>
+          <a class="btn" href="files/03_spec.sample.md" download>できあがりの例を見る</a>
+        </div>
+
+        <p style="margin-top:16px"><code>docs/03_spec.md</code> に、こう書かれます。</p>
+        <ul>
+          <li>画面に何が出るか／<b>データ項目</b>／<b>操作は3つまで</b></li>
+          <li>やらないこと／<b>完成条件</b>（見れば判定できる形で3つ）</li>
+        </ul>
+
+        <div class="done-cond"><b>完了条件</b>　<code>docs/03_spec.md</code> ができ、<b>完成条件が3つ</b>書かれている</div>
+
+        <details class="expl">
+          <summary>応用｜要件定義書があると、この先どう変わるか</summary>
+          <div class="body">
+            <p>要件定義書は「作るもの」を決める書類ですが、<b>いちばんの効きどころは "作らないもの" を決めることです。</b></p>
+            <p>AIは頼めばいくらでも機能を足します。<b>止める側の根拠</b>が無いと、際限なく膨らんで、結局動かないものができます。
+              「6. やらないこと」と「7. 完成条件」が、その歯止めになります。</p>
+            <p>実務でもそのまま使えます。<b>外注するとき</b>はこれをそのまま渡せば見積もりが取れますし、
+              <b>顧客に見せるとき</b>は「7. 完成条件」を読み上げれば、認識のズレが着手前に潰せます。</p>
+            <p>そして、<b>ここを作り直せば、何度でも作り直せます。</b>気に入らなければ要件定義書を直して
+              <code>/build</code> をもう一度打つ。コードを直すのではなく、<b>設計図を直す</b>のが速いです。</p>
+          </div>
+        </details>
+
+        <label class="check"><input type="checkbox" data-step="s7"> できた</label>
+      </div>
+    </div>
+
+    <!-- ============ STEP 8 ============ -->
+    <div class="step" data-k="s8">
+      <div class="step-h"><div class="step-n">8</div><h3>動くツールを実装させる</h3><span class="time">9分</span></div>
       <div class="step-b">
         <p>要件定義書から、<b>触ると動くツール</b>を作らせます。説明ページではありません。</p>
         <div class="code" id="p3">/build</div>
         <div class="btns"><button class="btn primary" data-copy="p3">コピー</button></div>
+
         <p style="margin-top:16px">Claudeが守る制約（<code>CLAUDE.md</code> に書いてあります）：</p>
         <div class="scroll">
           <table>
             <tbody>
               <tr><td><b>1画面</b>だけ</td><td>ページを増やさない</td></tr>
               <tr><td><b>操作は3つまで</b></td><td>4つ目から急に複雑になる</td></tr>
-              <tr><td><b>データは端末に保存</b></td><td>リロードしても消えない（<code>localStorage</code>）</td></tr>
+              <tr><td><b>データは端末に保存</b></td><td>リロードしても消えない</td></tr>
               <tr><td>ライブラリ追加なし</td><td>ビルドが落ちる原因を作らない</td></tr>
             </tbody>
           </table>
         </div>
+
         <div class="done-cond"><b>完了条件</b>　差分が出て、Claudeが「できること3つ」を報告している</div>
-        <label class="check"><input type="checkbox" data-step="s7"> できた</label>
+
+        <details class="expl">
+          <summary>応用｜作ったツールを、この先どう育てるか</summary>
+          <div class="body">
+            <p>今日作るものは、<b>データがあなたの端末にだけ保存されます。</b>
+              リロードしても消えませんが、<b>別の端末からは見えません。他の人とも共有できません。</b></p>
+            <p>これは手抜きではなく、25分で「動く」ところまで行くための選び方です。
+              顧客に見せて反応を取るには、これで十分足ります。</p>
+            <div class="scroll">
+              <table>
+                <thead><tr><th></th><th>今日（#1）</th><th>この先</th></tr></thead>
+                <tbody>
+                  <tr><td>データ保存</td><td>端末に保存</td><td><b>#3</b> クラウドDBへ</td></tr>
+                  <tr><td>複数人で共有</td><td>できない</td><td><b>#3</b></td></tr>
+                  <tr><td>ログイン・課金</td><td>なし</td><td><b>#3</b></td></tr>
+                  <tr><td>ページを大量に作る</td><td>1画面</td><td><b>#2</b> 型 × データで量産</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="margin-top:14px"><b>先に「動くもの」を持っておくと、#2・#3が全部これの続きになります。</b>
+              作り直しではなく、載せ替えていく形です。</p>
+          </div>
+        </details>
+
+        <label class="check"><input type="checkbox" data-step="s8"> できた</label>
       </div>
     </div>
 
-    <div class="step" data-k="s8">
-      <div class="step-h"><div class="step-n">8</div><h3>本番に出して、実際に触ってみる</h3><span class="time">5分</span></div>
+    <!-- ============ STEP 9 ============ -->
+    <div class="step" data-k="s9">
+      <div class="step-h"><div class="step-n">9</div><h3>本番に出して、実際に触る</h3><span class="time">5分</span></div>
       <div class="step-b">
-        <p><b>Create PR</b> を押すと、GitHubにPRができます。</p>
-        <div class="paste">
-          <b style="color:var(--accent)">💡 Mergeを待たなくても、先に見られます</b><br>
-          PRを作ると、Vercelが<b>確認用のURL（プレビュー）</b>を自動で作ります。
-          GitHubのPR画面に <code>vercel</code> のコメントが付くので、そのリンクを開けば
-          <b>Merge前に動きを確認できます。</b><br>
-          確認してOKなら <b>Merge</b> → 2〜3分で本番URLにも反映されます。
-        </div>
-        <p>開いたら、<b>実際に触ってください。</b></p>
+        <ol>
+          <li><b>Create PR</b> を押す</li>
+          <li>GitHubで <b>Merge pull request</b></li>
+          <li>2〜3分待って、自分のURLをリロード</li>
+        </ol>
+
+        <p style="margin-top:14px">開いたら、<b>実際に触ってください。</b></p>
         <ol>
           <li>何か1件<b>追加</b>してみる</li>
           <li><b>リロード</b>する → <b class="warn">追加したものが残っていれば成功です</b></li>
         </ol>
-        <p class="note">残っていなければ、Zoomのチャットで声をかけてください。<br>
-          直したいところが出てきたら <b>追加 → 修正 → 削除</b> の順で、1回1つずつ頼みます。
-          削除を最後にするのは、消してから足すと<b>同じものをまた作らせる</b>ことになるからです。</p>
+
         <div class="done-cond"><b>完了条件</b>　自分のURLでツールが動き、<b>リロードしてもデータが残る</b></div>
-        <label class="check"><input type="checkbox" data-step="s8"> できた</label>
+
+        <details class="expl">
+          <summary>応用｜Mergeを待たずに確認する／直したくなったら</summary>
+          <div class="body">
+            <p><b>PRを作った時点で、確認用のURLが自動で発行されます。</b>
+              GitHubのPR画面に <code>vercel</code> のコメントが付くので、そのリンクを開けば
+              <b>Merge前に動きを試せます。</b>待ち時間が減るうえ、これは実務でも使うやり方です。</p>
+            <p><b>直したいところが出てきたら、1回1つずつ頼みます。</b>順番は
+              <b>追加 → 修正 → 削除</b>。削除を最後にするのは、消してから足すと
+              <b>同じものをまた作らせる</b>ことになるからです。</p>
+            <p>それぞれPRを分けて出してください。まとめて出すと、<b>どれが原因で崩れたか追えなくなります。</b></p>
+          </div>
+        </details>
+
+        <label class="check"><input type="checkbox" data-step="s9"> できた</label>
       </div>
     </div>
 
