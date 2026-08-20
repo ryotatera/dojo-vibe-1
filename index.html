@@ -147,6 +147,33 @@
   .preview pre .hd{color:#8FD3C4;font-weight:700}
   .pv-note{font-size:12.5px;color:var(--sub2);padding:11px 16px;background:var(--tint2);border-top:1px solid var(--rule)}
 
+  /* 用語集 */
+  .tabs{display:flex;gap:6px;margin-bottom:0;flex-wrap:wrap}
+  .tab{font-family:inherit;font-size:13.5px;font-weight:700;padding:11px 20px;cursor:pointer;
+    background:var(--bg);color:var(--sub2);border:1px solid var(--rule);border-bottom:none;
+    border-radius:6px 6px 0 0;transition:.15s;position:relative;top:1px}
+  .tab:hover{color:var(--accent)}
+  .tab[aria-selected="true"]{background:var(--surface);color:var(--accent);border-color:var(--rule)}
+  .tab[aria-selected="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--surface)}
+  .tabwrap{border:1px solid var(--rule);border-radius:0 6px 6px 6px;background:var(--surface);overflow:hidden}
+  .tsearch{padding:14px 16px;border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:center}
+  .tsearch input{flex:1;font-family:inherit;font-size:14px;color:var(--text);background:var(--bg);
+    border:1px solid var(--rule);border-radius:5px;padding:9px 12px}
+  .tsearch input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+  .tsearch .hit{font-family:var(--mono);font-size:11.5px;color:var(--weak);white-space:nowrap}
+  .tpanel[hidden]{display:none}
+  .terms{width:100%;border-collapse:collapse;font-size:14px;min-width:0}
+  .terms tr{border-bottom:1px solid var(--rule)}
+  .terms tr:last-child{border-bottom:none}
+  .terms tr[hidden]{display:none}
+  .terms td{padding:14px 16px;vertical-align:top;line-height:1.75}
+  .terms .t{width:31%;min-width:150px}
+  .terms .t b{display:block;font-size:14.5px;font-weight:800}
+  .terms .t span{display:block;font-size:11.5px;color:var(--weak);font-family:var(--mono);margin-top:2px}
+  .terms .d{color:var(--sub)}
+  .terms .d em{font-style:normal;display:block;margin-top:6px;font-size:12.5px;color:var(--accent);font-weight:700}
+  .noHit{padding:26px 16px;text-align:center;color:var(--weak);font-size:13.5px}
+
   .note{font-size:13px;color:var(--sub2);margin-top:12px}
   footer{padding:44px 0 72px;font-size:13px;color:var(--weak)}
   .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(80px);
@@ -169,6 +196,7 @@
     <h1>当日の進め方</h1>
     <p class="lead">上から順に進めてください。コードは1文字も書きません。<br>
       やることは「指示する」「見る」「OKを出す」の3つだけです。</p>
+    <p style="margin:14px 0 0"><a class="btn" href="#terms">📖 用語集を見る</a></p>
 
     <div class="goal">
       <h2>帰るときに、この4つが揃っていれば成功です</h2>
@@ -472,6 +500,71 @@
   </div>
 </section>
 
+<section id="terms">
+  <div class="wrap">
+    <p class="kicker">GLOSSARY</p>
+    <h2 class="sec">用語集</h2>
+    <p class="sub">見慣れない言葉が出てきたら、ここで調べてください。全部覚える必要はありません。</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-panel="pg">GitHub の用語</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="pv">バイブコーディングの用語</button>
+    </div>
+    <div class="tabwrap">
+      <div class="tsearch">
+        <input type="search" id="termSearch" placeholder="用語を検索（例: マージ、PR、CLAUDE.md）" autocomplete="off">
+        <span class="hit" id="termHit"></span>
+      </div>
+      <div class="tpanel" id="pg" role="tabpanel">
+        <table class="terms">
+          <tbody>
+          <tr><td class="t"><b>リポジトリ</b><span>repository</span></td><td class="d">1つのプロジェクトを入れておく箱。パソコンのフォルダに近いものです。<em>▸ STEP1で自分用のものを作ります</em></td></tr>
+          <tr><td class="t"><b>テンプレート</b><span>template</span></td><td class="d">中身が入ったひな型。<b>Use this template</b> を押すと、自分用のコピーが1つできます。<em>▸ STEP1</em></td></tr>
+          <tr><td class="t"><b>Public / Private</b></td><td class="d">公開か非公開か。Publicは誰でも中身を見られます。<b>パスワードやAPIキーは絶対に置かないでください。</b><em>▸ STEP1でPublicを選びます</em></td></tr>
+          <tr><td class="t"><b>コミット</b><span>commit</span></td><td class="d">変更の保存。「ここまでの状態」に名前をつけて記録することです。<em>▸ Claudeが自動でやってくれます</em></td></tr>
+          <tr><td class="t"><b>ブランチ</b><span>branch</span></td><td class="d">作業用の枝分かれ。<b>本番を壊さずに試せる場所</b>です。<em>▸ Claudeが自動で作ります</em></td></tr>
+          <tr><td class="t"><b>main</b><span>メイン</span></td><td class="d">本番のブランチ。ここに入った内容が、あなたのURLに公開されます。<em>▸ STEP8でここに反映します</em></td></tr>
+          <tr><td class="t"><b>PR / プルリクエスト</b><span>pull request</span></td><td class="d"><b>「この変更を本番に入れていいですか？」という提案書</b>です。出しただけでは本番は変わりません。<em>▸ STEP4・STEP8</em></td></tr>
+          <tr><td class="t"><b>差分</b><span>diff</span></td><td class="d">変更前と変更後の違い。<b>+42 -18</b> は「42行増えて18行減った」という意味です。<em>▸ STEP4で中身を確認します</em></td></tr>
+          <tr><td class="t"><b>マージ</b><span>merge</span></td><td class="d">PRを承認して、本番（main）に取り込むこと。<b>ここで初めてサイトが変わります。</b><em>▸ STEP4・STEP8</em></td></tr>
+          <tr><td class="t"><b>README</b><span>リードミー</span></td><td class="d">説明書。リポジトリを開いたとき、最初に表示される文章です。<em>▸ テンプレートに入っています</em></td></tr>
+          <tr><td class="t"><b>.gitignore</b></td><td class="d">「これはGitで管理しない」という指定ファイル。パスワードを置く <code>.env.local</code> などを除外します。<em>▸ 触らなくて大丈夫です</em></td></tr>
+          <tr><td class="t"><b>GitHub App</b></td><td class="d">GitHubに機能を足す連携アプリ。<b>今日つなぐClaudeがこれです。</b>「認可（Authorized）」だけでは書き込めず、<b>「インストール（Installed）」</b>が必要です。<em>▸ STEP3</em></td></tr>
+          <tr><td class="t"><b>GitHub Pages</b></td><td class="d">リポジトリの中身を、そのままWebサイトとして公開できる機能。<em>▸ このページ自体がそれです</em></td></tr>
+          <tr><td class="t"><b>Fork</b><span>フォーク</span></td><td class="d">他人のリポジトリを自分用に丸ごとコピーすること。今日は使いません（テンプレートを使います）。<em>▸ 今日は使いません</em></td></tr>
+          <tr><td class="t"><b>Issue</b><span>イシュー</span></td><td class="d">課題や要望を書き留めておくメモ機能。<em>▸ 今日は使いません</em></td></tr>
+          </tbody>
+        </table>
+        <div class="noHit" hidden>該当する用語がありません</div>
+      </div>
+      <div class="tpanel" id="pv" role="tabpanel" hidden>
+        <table class="terms">
+          <tbody>
+          <tr><td class="t"><b>バイブコーディング</b><span>vibe coding</span></td><td class="d"><b>コードを書くのをやめて、AIに指示して作ること。</b>やることは「指示する」「見る」「OKを出す」の3つです。<em>▸ 今日ずっとこれをやります</em></td></tr>
+          <tr><td class="t"><b>Claude Code</b></td><td class="d">あなたの代わりに手を動かすAI。ブラウザ版は <code>claude.ai/code</code> で、クラウド上で作業します。<b>パソコンには何も入りません。</b><em>▸ STEP3でつなぎます</em></td></tr>
+          <tr><td class="t"><b>CLAUDE.md</b><span>クロードエムディー</span></td><td class="d"><b>Claudeが毎回いちばん最初に読む指示書。</b>「誰のため／解く課題／やらないこと／技術ルール」を書きます。<b>今日いちばん大事なファイルです。</b><em>▸ STEP5〜7で効いてきます</em></td></tr>
+          <tr><td class="t"><b>プロンプト</b><span>prompt</span></td><td class="d">AIへの指示文のこと。<em>▸ このページのコピーボタンで配っています</em></td></tr>
+          <tr><td class="t"><b>4つの型</b></td><td class="d">指示の書き方。<b>①対象（どのファイル）②やること（1つだけ）③条件 ④禁止</b>。この4つを埋めれば、だいたい通ります。<em>▸ STEP4で覚えます</em></td></tr>
+          <tr><td class="t"><b>スラッシュコマンド</b></td><td class="d"><code>/kickoff</code> のように <code>/</code> で始める呼び出し。決まった手順をまとめて実行できます。<em>▸ STEP6で使います</em></td></tr>
+          <tr><td class="t"><b>仮説（🔮）</b></td><td class="d"><b>まだ確かめていないこと。</b>Claudeが埋めた項目には 🔮 が付きます。これがそのまま宿題になります。<em>▸ STEP6以降</em></td></tr>
+          <tr><td class="t"><b>ハルシネーション</b><span>hallucination</span></td><td class="d"><b>AIがもっともらしい嘘を作ること。</b>実績や数字を勝手に書くことがあるので、公開前に必ず自分で確認してください。<em>▸ STEP8の確認で効きます</em></td></tr>
+          <tr><td class="t"><b>コンテキスト</b><span>context</span></td><td class="d">AIが一度に読み込める情報の量。長い会話が続くと古い内容を忘れるので、<b>1回の指示は1つに絞る</b>のが確実です。<em>▸ STEP8</em></td></tr>
+          <tr><td class="t"><b>デプロイ</b><span>deploy</span></td><td class="d">作ったものをサーバーに載せて、<b>世界から見える状態にすること</b>。<em>▸ STEP2で1回目をやります</em></td></tr>
+          <tr><td class="t"><b>ビルド</b><span>build</span></td><td class="d">書いたコードを、ブラウザが読める形に変換する処理。ここで失敗すると公開されません。<em>▸ Vercelが自動でやります</em></td></tr>
+          <tr><td class="t"><b>Vercel</b><span>ヴァーセル</span></td><td class="d">公開先のサービス。GitHubとつなぐと、<b>マージするたび自動で公開し直してくれます。</b>無料枠で足ります。<em>▸ STEP2</em></td></tr>
+          <tr><td class="t"><b>Next.js</b><span>ネクストジェイエス</span></td><td class="d">このテンプレートが使っているWebサイトの土台。中身を知らなくても今日は困りません。<em>▸ テンプレートに入っています</em></td></tr>
+          <tr><td class="t"><b>ローカル / 本番</b></td><td class="d">「ローカル」は自分の手元、「本番」は世界に公開されている方。<b>今日は最初から本番だけを使います。</b><em>▸ STEP2以降</em></td></tr>
+          <tr><td class="t"><b>環境変数</b><span>.env</span></td><td class="d">APIキーやパスワードなど、<b>コードに書いてはいけない秘密の設定</b>を入れる場所。第3回で扱います。<em>▸ 今日は使いません</em></td></tr>
+          <tr><td class="t"><b>API / APIキー</b></td><td class="d">外部サービスを使うための窓口と、その合鍵。<b>合鍵は絶対に公開リポジトリに置かないでください。</b><em>▸ 今日は使いません</em></td></tr>
+          </tbody>
+        </table>
+        <div class="noHit" hidden>該当する用語がありません</div>
+      </div>
+    </div>
+    <p class="note">それでも分からない言葉は、Zoomのチャットで聞いてください。<b>その場で聞くのが一番早いです。</b></p>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <p class="kicker">DOWNLOADS</p>
@@ -536,6 +629,44 @@
       }
     });
   });
+
+  // ---- 用語集タブ＋検索 ----
+  (function(){
+    var tabs = document.querySelectorAll('.tab');
+    if (!tabs.length) return;
+    var search = document.getElementById('termSearch');
+    var hit = document.getElementById('termHit');
+
+    function activePanel(){
+      var sel = document.querySelector('.tab[aria-selected="true"]');
+      return document.getElementById(sel.dataset.panel);
+    }
+    function filter(){
+      var q = (search.value || '').trim().toLowerCase();
+      var panel = activePanel();
+      var rows = panel.querySelectorAll('.terms tr');
+      var n = 0;
+      rows.forEach(function(tr){
+        var match = !q || tr.textContent.toLowerCase().indexOf(q) !== -1;
+        tr.hidden = !match;
+        if (match) n++;
+      });
+      panel.querySelector('.noHit').hidden = n > 0;
+      hit.textContent = q ? n + ' 件' : rows.length + ' 語';
+    }
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        tabs.forEach(function(t){
+          var on = t === tab;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          document.getElementById(t.dataset.panel).hidden = !on;
+        });
+        filter();
+      });
+    });
+    search.addEventListener('input', filter);
+    filter();
+  })();
 
   // ---- 3行フォーム ----
   var FKEY = 'dojo-vibe-1-answers';
