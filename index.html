@@ -129,6 +129,19 @@
   .paste ol{margin:8px 0 0;padding-left:1.3em}
   .paste li{margin-bottom:3px}
 
+  /* 折りたたみ解説 */
+  .expl{margin-top:16px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);overflow:hidden}
+  .expl summary{cursor:pointer;padding:14px 16px;font-size:13.5px;font-weight:700;color:var(--accent);
+    list-style:none;display:flex;align-items:center;gap:9px;user-select:none;background:var(--tint2)}
+  .expl summary::-webkit-details-marker{display:none}
+  .expl summary::before{content:"▶";font-size:10px;transition:.15s}
+  .expl[open] summary::before{transform:rotate(90deg)}
+  .expl .body{padding:20px 22px;font-size:14px;color:var(--sub);line-height:1.85}
+  .expl .body p{margin:0 0 14px}
+  .expl .body p:last-child{margin-bottom:0}
+  .way{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin:16px 0}
+  .way b{display:block;color:var(--text);font-size:14.5px;margin-bottom:4px}
+
   /* 入力ヒント */
   .fh{font-size:12.5px;line-height:1.7;margin-top:7px;padding:9px 12px;border-radius:5px;
       display:flex;gap:8px;align-items:flex-start}
@@ -476,6 +489,105 @@
         </ul>
         <div class="btns"><a class="btn" href="files/03_spec.sample.md" download>要件定義書の記入例を見る</a></div>
         <div class="done-cond">🔮 が付いた項目は「<b>まだ確かめていないこと</b>」です。<b>これがそのまま宿題になります。</b></div>
+
+        <details class="expl">
+          <summary>この <code>/kickoff</code> は何をしているのか（他のプロジェクトでも使いたい方へ）</summary>
+          <div class="body">
+            <p><b><code>/kickoff</code> は魔法ではありません。</b>
+              このリポジトリの中にある
+              <code>.claude/commands/kickoff.md</code> という<b>ただのテキストファイル</b>です。
+              中身は、日本語で書かれた長めの指示文にすぎません。</p>
+            <p>だから <b>今日のテンプレートを離れると、この命令は存在しません。</b>
+              明日ご自身の事業で新しくプロジェクトを作っても、<code>/kickoff</code> と打っても何も起きません。
+              持ち帰るには、次の3つのどれかをやります。</p>
+
+            <div class="way">
+              <b>① フォルダごとコピーする（いちばん簡単）</b>
+              今日のリポジトリの <code>.claude/commands/</code> を、新しいプロジェクトにコピーするだけ。
+              それで <code>/kickoff</code> も <code>/spec</code> も使えるようになります。
+            </div>
+
+            <div class="way">
+              <b>② Claudeに作らせる</b>
+              新しいプロジェクトで、こう頼みます。<br>
+              <code>.claude/commands/kickoff.md を作ってください。中身は「顧客の3行から仮説を埋めて、
+              埋めた項目に🔮を付ける」という指示です。</code><br>
+              <b>コマンドは自分で増やせます。</b>よく使う指示は、全部これにしておくと毎回打たずに済みます。
+            </div>
+
+            <div class="way">
+              <b>③ コマンドを使わず、中身をそのまま貼る</b>
+              下のボタンで、<b>どのプロジェクトでもそのまま使えるプロンプト</b>をコピーできます。
+              テンプレートに依存しないので、これがいちばん確実です。
+            </div>
+
+            <div class="btns">
+              <button class="btn primary" data-copy="pport1">仮説を埋めるプロンプト（単体版）</button>
+              <button class="btn primary" data-copy="pport2">要件定義書を作るプロンプト（単体版）</button>
+            </div>
+
+            <div class="code" id="pport1" hidden>あなたは事業の壁打ち相手です。以下の3行から、残りをあなたが仮説で埋めてください。
+
+【入力】
+1. 誰のために作るか：（ここに1行目）
+2. その人は何に困っているか：（ここに2行目）
+3. 何があれば助かるか：（ここに3行目）
+
+【ルール】
+- 聞き返さない。足りないところは、もっともらしい仮説で埋める
+- あなたが埋めた項目には、行頭に 🔮 を付ける
+- 🔮 の項目には「その顧客に何と聞けば確かめられるか」を1行添える
+- 断定しない（「〜と思われる」「〜の可能性が高い」で書く）
+
+【埋める項目】
+1. 今その人はどうやっているか
+2. かかっている時間・費用（「1件◯分 × 月◯件」の形。数字が無ければ業種から仮に置く）
+3. なぜ今まで誰も作らなかったのか
+   （データが散っている／市場が小さい／量が多すぎる／判断が非定型／n=1すぎる から1つ選ぶ）
+4. 誰が払うか（使う人と払う人が違う可能性を検討。その相手に予算を張る商習慣があるか）
+5. どう届くか（「上の経路＝検索・広告・DM・SNS」か「下の経路＝紹介・口コミ・既存顧客・業界内」かを明示）
+6. 受け取れるか（決済の禁止・要審査業種に当たるか。投資／医療／サプリ／法律相談／暗号資産／ギャンブル／アダルト／情報商材）
+7. 競合と、DIY競合（顧客が自分でAIに作らせる場合）
+8. 選ばれる理由（データ／責任／時間／埋め込み のどれかで書く。機能では書かない）
+9. やらないこと（3つ）
+
+【最後に】
+確かめるべきことを、事業の成否を左右する順に3つだけ。
+「確かめること → 誰に聞くか → そのまま使える質問文」の形で書く。
+②どう届くか が仮説のままなら、量では取り返せないと明記する。</div>
+
+            <div class="code" id="pport2" hidden>上で作った顧客仮説から、25分で作り切れる「動くツール」の要件定義書を書いてください。
+説明ページではなく、触ると動くツールです。
+
+【制約】
+- 画面は1つだけ。ルーティングを増やさない
+- 操作は3つまで
+- データは localStorage に保存（サーバー・DB・ログインなし。リロードしても消えない）
+- ログイン・課金・メール送信は作らない
+- 新しいライブラリを追加しない
+
+【この見出しで書く】
+1. このツールが解くこと（1行。「〜が分かる」「〜が減る」）
+2. 使う人と、使う場面
+3. 画面（上から順に何が出るか）
+4. データ項目（項目／型／必須／例 の表）
+5. 操作（3つまで。操作／何が起きるか の表）
+6. やらないこと（3つ以上）
+7. 完成条件（見れば誰でもYes/Noを判定できる形で3つ）
+8. 保存方法（localStorage のキー名）
+9. ダミーデータ（3件。実在の人名・連絡先は使わない）
+
+【書き方】
+- 顧客仮説の「1件◯分 × 月◯件」から、データ項目と操作を直接起こす
+- 🔮 が付いていた仮説に依存する項目には、同じく 🔮 を付ける
+- 迷ったら機能を減らす方向で決める
+- この段階ではコードを1行も書かない</div>
+
+            <p style="margin-top:16px"><b>今日いちばん持ち帰る価値があるのは、実はここです。</b>
+              「よく使う指示を、ファイルにして置いておける」と分かると、
+              <b>2回目以降のプロジェクトが毎回速くなります。</b></p>
+          </div>
+        </details>
         <label class="check"><input type="checkbox" data-step="s6"> できた</label>
       </div>
     </div>
@@ -623,7 +735,7 @@
           <tr><td class="t"><b>CLAUDE.md</b><span>クロードエムディー</span></td><td class="d"><b>Claudeが毎回いちばん最初に読む指示書。</b>「誰のため／解く課題／やらないこと／技術ルール」を書きます。<b>今日いちばん大事なファイルです。</b><em>▸ STEP5〜7で効いてきます</em></td></tr>
           <tr><td class="t"><b>プロンプト</b><span>prompt</span></td><td class="d">AIへの指示文のこと。<em>▸ このページのコピーボタンで配っています</em></td></tr>
           <tr><td class="t"><b>4つの型</b></td><td class="d">指示の書き方。<b>①対象（どのファイル）②やること（1つだけ）③条件 ④禁止</b>。この4つを埋めれば、だいたい通ります。<em>▸ STEP4で覚えます</em></td></tr>
-          <tr><td class="t"><b>スラッシュコマンド</b></td><td class="d"><code>/kickoff</code> のように <code>/</code> で始める呼び出し。決まった手順をまとめて実行できます。<em>▸ STEP6で使います</em></td></tr>
+          <tr><td class="t"><b>スラッシュコマンド</b></td><td class="d"><code>/kickoff</code> のように <code>/</code> で始める呼び出し。<b>正体は <code>.claude/commands/○○.md</code> というただのテキストファイル</b>で、中身は日本語の指示文です。<b>自分で 増やせます。</b>そのリポジトリにファイルが無ければ使えません。<em>▸ STEP6の折りたたみで詳しく</em></td></tr>
           <tr><td class="t"><b>仮説（🔮）</b></td><td class="d"><b>まだ確かめていないこと。</b>Claudeが埋めた項目には 🔮 が付きます。これがそのまま宿題になります。<em>▸ STEP6以降</em></td></tr>
           <tr><td class="t"><b>ハルシネーション</b><span>hallucination</span></td><td class="d"><b>AIがもっともらしい嘘を作ること。</b>実績や数字を勝手に書くことがあるので、公開前に必ず自分で確認してください。<em>▸ STEP8の確認で効きます</em></td></tr>
           <tr><td class="t"><b>コンテキスト</b><span>context</span></td><td class="d">AIが一度に読み込める情報の量。長い会話が続くと古い内容を忘れるので、<b>1回の指示は1つに絞る</b>のが確実です。<em>▸ STEP8</em></td></tr>
