@@ -194,16 +194,16 @@
     <div class="bar"></div>
     <p class="eyebrow">vibeコーディング講座（寺門回）#1</p>
     <h1>当日の進め方</h1>
-    <p class="lead">上から順に進めてください。コードは1文字も書きません。<br>
-      やることは「指示する」「見る」「OKを出す」の3つだけです。</p>
+    <p class="lead"><b>3行書くと、要件定義書ができて、動くツールが本番URLで立ち上がります。</b><br>
+      コードは1文字も書きません。やることは「指示する」「見る」「OKを出す」の3つだけです。</p>
     <p style="margin:14px 0 0"><a class="btn" href="#terms">📖 用語集を見る</a></p>
 
     <div class="goal">
       <h2>帰るときに、この4つが揃っていれば成功です</h2>
       <ul>
         <li><span class="n">01</span><span><b>自分のURLが開く</b> — 誰のブラウザからでも</span></li>
-        <li><span class="n">02</span><span><b>トップページが自分の題材になっている</b> — テンプレの初期文言が残っていない</span></li>
-        <li><span class="n">03</span><span><b>顧客が書いてある</b> — 空欄があってもよい。空欄が宿題になる</span></li>
+        <li><span class="n">02</span><span><b>自分の事業の「要件定義書」がある</b> — 3行から自動で組み上がったもの</span></li>
+        <li><span class="n">03</span><span><b>そのURLで、ツールが動く</b> — 押せる・入力できる・<b>リロードしてもデータが残る</b></span></li>
         <li><span class="n">04</span><span><b>自分の指示で1回以上、中身が変わった</b> — 指示 → PR → Merge → 反映</span></li>
       </ul>
     </div>
@@ -342,8 +342,19 @@
 <section>
   <div class="wrap">
     <p class="kicker">実践② ｜ 25分</p>
-    <h2 class="sec">ここからが本体 ── 自分の事業のサイトにする</h2>
-    <p class="sub">あなたが書くのは<b>3行だけ（5分）</b>。残りは Claude Code が仮説で埋めます。</p>
+    <h2 class="sec">ここからが本体 ── 3行から、動くツールを立ち上げる</h2>
+    <p class="sub">あなたが書くのは<b>3行だけ（5分）</b>。仮説も要件定義書も実装も、Claude Code がやります。</p>
+    <div class="paste" style="margin-bottom:22px">
+      <b style="color:var(--accent)">この25分で起きること</b>
+      <ol>
+        <li><b>3行</b>を書く（あなた）</li>
+        <li>→ 残りを<b>仮説</b>で埋める（Claude）</li>
+        <li>→ <b>要件定義書</b>を作る（Claude）</li>
+        <li>→ <b>動くツール</b>を実装する（Claude）</li>
+        <li>→ 本番URLに反映（あなたがMergeを1回押すだけ）</li>
+      </ol>
+      できあがるのは説明ページではなく、<b>押せる・入力できる・リロードしてもデータが残るツール</b>です。
+    </div>
 
     <div class="step" data-k="s5">
       <div class="step-h"><div class="step-n">5</div><h3>3行だけ書いて、Claudeに渡す</h3><span class="time">5分</span></div>
@@ -403,48 +414,67 @@
     </div>
 
     <div class="step" data-k="s6">
-      <div class="step-h"><div class="step-n">6</div><h3>残りは Claude に仮説で埋めてもらう</h3><span class="time">5分</span></div>
+      <div class="step-h"><div class="step-n">6</div><h3>仮説を埋めて、要件定義書まで作らせる</h3><span class="time">5分</span></div>
       <div class="step-b">
-        <p>STEP5の指示に含まれているので、<b>自動で続けて実行されます。</b>
-           もし止まっていたら、これを打ってください。</p>
+        <p>仮説（<code>/kickoff</code>）はSTEP5の指示に含まれているので、<b>自動で続けて実行されます。</b>
+           止まっていたら下の1つ目を、終わっていたら2つ目を打ってください。</p>
         <div class="code" id="p2">/kickoff</div>
-        <div class="btns"><button class="btn primary" data-copy="p2">コピー</button></div>
-        <p style="margin-top:14px">3行から、Claude が<b>仮説</b>で以下を組み立てます。</p>
+        <div class="btns"><button class="btn" data-copy="p2">コピー（仮説を埋める）</button></div>
+        <div class="code" id="p2b" style="margin-top:12px">/spec</div>
+        <div class="btns"><button class="btn primary" data-copy="p2b">コピー（要件定義書を作る）</button></div>
+
+        <p style="margin-top:18px"><b>/kickoff</b> — 3行から仮説を組み立てます。</p>
         <ul>
           <li>その人が今どうやっているか／かかっている時間・費用</li>
           <li>なぜ今まで誰も作らなかったのか</li>
           <li><b>出口の3点</b>（誰が払うか／どう届くか／受け取れるか）</li>
-          <li>競合とDIY競合、選ばれる理由、やらないこと</li>
         </ul>
+        <p style="margin-top:14px"><b>/spec</b> — そこから <code>docs/03_spec.md</code>（要件定義書）を作ります。</p>
+        <ul>
+          <li>画面に何が出るか／データ項目／<b>操作は3つまで</b></li>
+          <li>やらないこと／<b>完成条件</b>（見れば判定できる形で3つ）</li>
+        </ul>
+        <div class="btns"><a class="btn" href="files/03_spec.sample.md" download>要件定義書の記入例を見る</a></div>
         <div class="done-cond">🔮 が付いた項目は「<b>まだ確かめていないこと</b>」です。<b>これがそのまま宿題になります。</b></div>
         <label class="check"><input type="checkbox" data-step="s6"> できた</label>
       </div>
     </div>
 
     <div class="step" data-k="s7">
-      <div class="step-h"><div class="step-n">7</div><h3>トップページを作らせる</h3><span class="time">7分</span></div>
+      <div class="step-h"><div class="step-n">7</div><h3>動くツールを実装させる</h3><span class="time">10分</span></div>
       <div class="step-b">
-        <p>STEP4 で覚えた<b>4つの型</b>を、そのまま自分の題材に当てます。</p>
-        <div class="code" id="p3">docs/01_customer.md を読んで、その内容に合わせて app/page.tsx のトップページを書き換えてください。
-条件：見出し1つ、説明3行、CTAボタン1つ／色とフォントは app/globals.css の変数を使う／新しいライブラリは追加しない</div>
-        <div class="btns"><button class="btn primary" data-copy="p3">プロンプトをコピー</button></div>
-        <div class="done-cond"><b>完了条件</b>　差分が出て、変更されたファイルが <code>app/page.tsx</code> だけになっている</div>
+        <p>要件定義書から、<b>触ると動くツール</b>を作らせます。説明ページではありません。</p>
+        <div class="code" id="p3">/build</div>
+        <div class="btns"><button class="btn primary" data-copy="p3">コピー</button></div>
+        <p style="margin-top:16px">Claudeが守る制約（<code>CLAUDE.md</code> に書いてあります）：</p>
+        <div class="scroll">
+          <table>
+            <tbody>
+              <tr><td><b>1画面</b>だけ</td><td>ページを増やさない</td></tr>
+              <tr><td><b>操作は3つまで</b></td><td>4つ目から急に複雑になる</td></tr>
+              <tr><td><b>データは端末に保存</b></td><td>リロードしても消えない（<code>localStorage</code>）</td></tr>
+              <tr><td>ライブラリ追加なし</td><td>ビルドが落ちる原因を作らない</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="done-cond"><b>完了条件</b>　差分が出て、Claudeが「できること3つ」を報告している</div>
         <label class="check"><input type="checkbox" data-step="s7"> できた</label>
       </div>
     </div>
 
     <div class="step" data-k="s8">
-      <div class="step-h"><div class="step-n">8</div><h3>仕上げる ── 追加 → 修正 → 削除 の順で</h3><span class="time">8分</span></div>
+      <div class="step-h"><div class="step-n">8</div><h3>本番に出して、実際に触ってみる</h3><span class="time">5分</span></div>
       <div class="step-b">
-        <p><b>1回の指示で1つだけ。</b>一度に全部頼むと、何が効いたのか分からなくなります。</p>
+        <p><b>Create PR</b> → GitHubで <b>Merge</b> → 2〜3分待って自分のURLをリロード。</p>
+        <p>開いたら、<b>実際に触ってください。</b></p>
         <ol>
-          <li><b>追加</b> — 足りない要素を1つ入れる（例：料金の説明を1行）</li>
-          <li><b>修正</b> — 文言と色を直す（例：見出しを◯◯に）</li>
-          <li><b>削除</b> — 不要な部分を消す（例：使わないセクション）</li>
+          <li>何か1件<b>追加</b>してみる</li>
+          <li><b>リロード</b>する → <b class="warn">追加したものが残っていれば成功です</b></li>
         </ol>
-        <p class="note">削除を最後にするのは、消してから足すと<b>同じものをまた作らせる</b>ことになるからです。<br>
-          3回とも、それぞれPRを分けて出してください。まとめると、どれが原因で崩れたか追えなくなります。</p>
-        <div class="done-cond"><b>完了条件</b>　Merge して、自分のURLに反映されたことを確認した</div>
+        <p class="note">残っていなければ、Zoomのチャットで声をかけてください。<br>
+          直したいところが出てきたら <b>追加 → 修正 → 削除</b> の順で、1回1つずつ頼みます。
+          削除を最後にするのは、消してから足すと<b>同じものをまた作らせる</b>ことになるからです。</p>
+        <div class="done-cond"><b>完了条件</b>　自分のURLでツールが動き、<b>リロードしてもデータが残る</b></div>
         <label class="check"><input type="checkbox" data-step="s8"> できた</label>
       </div>
     </div>
@@ -454,8 +484,8 @@
       <p>この4つが揃っていれば、今日は成功です。できた人は<b>自分のURLをZoomチャットに貼ってください。</b></p>
       <ul>
         <li><input type="checkbox" data-step="f1"> 自分のURLが開く <small>誰のブラウザからでも</small></li>
-        <li><input type="checkbox" data-step="f2"> トップページが自分の題材になっている <small>初期文言が残っていない</small></li>
-        <li><input type="checkbox" data-step="f3"> docs/01_customer.md に顧客が書いてある <small>空欄があってもOK</small></li>
+        <li><input type="checkbox" data-step="f2"> 要件定義書（docs/03_spec.md）ができている <small>3行から自動生成</small></li>
+        <li><input type="checkbox" data-step="f3"> そのURLでツールが動く <small>リロードしてもデータが残る</small></li>
         <li><input type="checkbox" data-step="f4"> 自分の指示で1回以上、中身が変わった <small>指示→PR→Merge→反映</small></li>
       </ul>
     </div>
@@ -573,6 +603,7 @@
     <div class="files">
       <div class="file"><span class="fn">01_customer.md</span><span class="fd">はじめの3行（記入用）</span><a class="btn" href="files/01_customer.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">01_customer.sample.md</span><span class="fd">記入例 — 3行から仮説が埋まった状態</span><a class="btn" href="files/01_customer.sample.md" download>ダウンロード</a></div>
+      <div class="file"><span class="fn">03_spec.sample.md</span><span class="fd">要件定義書の記入例 — 実装まで確認済み</span><a class="btn" href="files/03_spec.sample.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">CLAUDE.md</span><span class="fd">Claude Code が毎回読む指示書</span><a class="btn" href="files/CLAUDE.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">CLAUDE.sample.md</span><span class="fd">記入例 — 埋まっているとどう変わるか</span><a class="btn" href="files/CLAUDE.sample.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">WORKSHOP_GUIDE.md</span><span class="fd">受講者ガイド（考え方・手順・宿題の全部入り）</span><a class="btn" href="files/WORKSHOP_GUIDE.md" download>ダウンロード</a></div>
