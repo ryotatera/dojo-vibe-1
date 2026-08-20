@@ -254,11 +254,12 @@
         </ol>
         <div class="paste" style="border-left:3px solid var(--bad)">
           <b style="color:var(--bad)">⚠ ここが今日いちばん詰まるポイントです</b>
-          「Only select repositories」を選ぶと、<b>あとで STEP4 の Create PR が 403 で失敗します。</b><br>
-          リポジトリ一覧には出るのに（読み取りはできてしまうため）、書き込みだけが拒否される、という分かりにくい詰まり方をします。<br>
-          <b>すでに「Only select」で入れてしまった方へ：</b>
-          <a href="https://github.com/settings/installations" target="_blank" rel="noopener">github.com/settings/installations</a>
-          → Claude → Configure → <b>All repositories</b> → Save で直ります。
+          「Install」の画面で <b>All repositories</b> を選んでください。<br>
+          「Only select repositories」だと、<b>あとで STEP4 の Create PR が 403 で失敗します。</b>
+          リポジトリ一覧には出るのに書き込みだけ拒否される、という分かりにくい詰まり方をします。
+          <br><br>
+          <b>うまくいかないときは、この画面から入れ直すのが確実です</b><br>
+          <a class="btn primary" style="margin-top:8px" href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">Claude を GitHub にインストール ↗</a>
         </div>
         <p>パソコン側では何も動きません。クラウド上にコピーが用意され、そこでClaudeが作業します。</p>
         <div class="btns"><a class="btn primary" href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code を開く ↗</a></div>
@@ -453,10 +454,12 @@
         <tbody>
           <tr><td>Vercelのビルドが失敗する</td><td>リポジトリ名に日本語・記号が入っていないか確認</td></tr>
           <tr><td><b>Create PR で 403</b><br><code>Resource not accessible by integration</code></td>
-    <td><b>Claude GitHub App にそのリポジトリの権限がありません。</b><br>
-    <a href="https://github.com/settings/installations" target="_blank" rel="noopener">github.com/settings/installations</a> → Claude → Configure → <b>All repositories</b> → Save<br>
-    そのまま同じセッションで再実行すれば通ります（開き直し不要）</td></tr>
-<tr><td>claude.ai/code にリポジトリが出ない</td><td><a href="https://github.com/settings/installations" target="_blank" rel="noopener">github.com/settings/installations</a> → Claude → Configure で許可</td></tr>
+    <td><b>Claude GitHub App が「インストール」されていません。</b><br>
+    <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">https://github.com/apps/claude/installations/new</a> → アカウントを選ぶ → <b>All repositories</b> → Install<br>
+    そのまま同じセッションで再実行すれば通ります（開き直し不要）<br>
+    <b>※ Settings → Applications の「Authorized」タブには Configure はありません。</b>
+    書き込み権限は「<b>Installed</b> GitHub Apps」タブ側の設定です</td></tr>
+<tr><td>claude.ai/code にリポジトリが出ない</td><td>同上。<a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">インストール画面</a>で All repositories を選ぶ</td></tr>
           <tr><td>Claudeが止まらない</td><td>停止して、指示を1つに絞って出し直す</td></tr>
           <tr><td>Mergeしたのに変わらない</td><td>Vercel の Deployments を確認 → Cmd+Shift+R</td></tr>
           <tr><td>Session creation failed</td><td>1分待って、もう一度送る</td></tr>
