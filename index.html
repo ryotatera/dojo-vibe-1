@@ -129,6 +129,30 @@
   .paste ol{margin:8px 0 0;padding-left:1.3em}
   .paste li{margin-bottom:3px}
 
+  /* 入力ヒント */
+  .fh{font-size:12.5px;line-height:1.7;margin-top:7px;padding:9px 12px;border-radius:5px;
+      display:flex;gap:8px;align-items:flex-start}
+  .fh[hidden]{display:none}
+  .fh.ok{background:var(--good-tint);color:var(--good)}
+  .fh.tip{background:var(--tint2);color:var(--sub)}
+  .fh b{font-weight:800}
+  .fh .ic{flex:none;font-size:13px}
+  .qmeter{display:flex;gap:5px;align-items:center;margin-left:auto;font-family:var(--mono);
+          font-size:11px;color:var(--weak)}
+  .qdot{width:9px;height:9px;border-radius:50%;background:var(--rule)}
+  .qdot.on{background:var(--good)}
+
+  /* 良い例・惜しい例 */
+  .exg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .exg > div{border-radius:5px;padding:14px 16px;font-size:13px;line-height:1.8}
+  .exg .bad{background:var(--tint);border-left:3px solid var(--weak)}
+  .exg .good{background:var(--good-tint);border-left:3px solid var(--good)}
+  .exg .lb{font-size:11.5px;font-weight:800;letter-spacing:.06em;display:block;margin-bottom:6px}
+  .exg .bad .lb{color:var(--weak)}
+  .exg .good .lb{color:var(--good)}
+  .exg .why{display:block;margin-top:8px;font-size:11.5px;color:var(--sub2)}
+  @media(max-width:640px){ .exg{grid-template-columns:1fr} }
+
   /* preview */
   .preview{margin-top:16px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);overflow:hidden}
   .preview summary{cursor:pointer;padding:13px 16px;font-size:13.5px;font-weight:700;
@@ -363,19 +387,22 @@
 
         <div class="form">
           <div class="fq">
-            <label for="q1">1. 誰のために作りますか</label>
+            <label for="q1" style="display:flex;align-items:center">1. 誰のために作りますか<span class="qmeter" id="m1"></span></label>
             <span class="hint">実名で1人。「30代の共働き世帯」ではなく<b>「〇〇工務店の田中さん」</b>まで下ろす</span>
             <textarea id="q1" rows="2" placeholder="例：〇〇進学ゼミ 三鷹校の田中教室長。前職の営業先で、今もLINEでつながっている。"></textarea>
+            <div class="fh" id="h1" hidden></div>
           </div>
           <div class="fq">
-            <label for="q2">2. その人は、何に困っていますか</label>
-            <span class="hint">1〜2行。「〜が面倒」ではなく、具体的な作業で書けるとよい</span>
-            <textarea id="q2" rows="3" placeholder="例：体験授業の問い合わせがLINEと電話とHPからバラバラに来て、返信漏れが起きている。"></textarea>
+            <label for="q2" style="display:flex;align-items:center">2. その人は、何に困っていますか<span class="qmeter" id="m2"></span></label>
+            <span class="hint"><b>ここがいちばん効きます。</b>「何を・どれくらいの頻度で・何分かけて」が入ると、作るものが決まります</span>
+            <textarea id="q2" rows="3" placeholder="例：体験授業の問い合わせがLINEと電話とHPからバラバラに来て、返信漏れが月2〜3件・1件15分かかっている。"></textarea>
+            <div class="fh" id="h2" hidden></div>
           </div>
           <div class="fq">
-            <label for="q3">3. 何があれば、その人は助かりますか</label>
-            <span class="hint">1行。機能名でなくてよい。「〜が分かる」「〜が届く」で書く</span>
+            <label for="q3" style="display:flex;align-items:center">3. 何があれば、その人は助かりますか<span class="qmeter" id="m3"></span></label>
+            <span class="hint">1行。機能名でなくてよい。<b>「〜が分かる」「〜が減る」</b>の形で書くと、完成条件が決まります</span>
             <textarea id="q3" rows="2" placeholder="例：今日返信すべき人が、一目で分かるといい。"></textarea>
+            <div class="fh" id="h3" hidden></div>
           </div>
 
           <div class="form-foot">
@@ -395,6 +422,19 @@
               <b>GitHubを手で編集する必要はありません。</b>
             </div>
           </details>
+        </div>
+
+        <div class="exg">
+          <div class="bad">
+            <span class="lb">惜しい例</span>
+            工務店の社長が、事務作業に時間を取られている。
+            <span class="why">→ 誰か・何の作業か・どれくらいかが無い。要件定義書が一般論になります</span>
+          </div>
+          <div class="good">
+            <span class="lb">効く例</span>
+            〇〇工務店の田中社長が、補助金を調べるのに<b>1件あたり2時間</b>、<b>月に5件</b>かけている。
+            <span class="why">→ 数字が入ると、画面に出す項目と操作がそのまま決まります</span>
+          </div>
         </div>
 
         <div class="paste">
@@ -465,7 +505,14 @@
     <div class="step" data-k="s8">
       <div class="step-h"><div class="step-n">8</div><h3>本番に出して、実際に触ってみる</h3><span class="time">5分</span></div>
       <div class="step-b">
-        <p><b>Create PR</b> → GitHubで <b>Merge</b> → 2〜3分待って自分のURLをリロード。</p>
+        <p><b>Create PR</b> を押すと、GitHubにPRができます。</p>
+        <div class="paste">
+          <b style="color:var(--accent)">💡 Mergeを待たなくても、先に見られます</b><br>
+          PRを作ると、Vercelが<b>確認用のURL（プレビュー）</b>を自動で作ります。
+          GitHubのPR画面に <code>vercel</code> のコメントが付くので、そのリンクを開けば
+          <b>Merge前に動きを確認できます。</b><br>
+          確認してOKなら <b>Merge</b> → 2〜3分で本番URLにも反映されます。
+        </div>
         <p>開いたら、<b>実際に触ってください。</b></p>
         <ol>
           <li>何か1件<b>追加</b>してみる</li>
@@ -560,6 +607,7 @@
           <tr><td class="t"><b>README</b><span>リードミー</span></td><td class="d">説明書。リポジトリを開いたとき、最初に表示される文章です。<em>▸ テンプレートに入っています</em></td></tr>
           <tr><td class="t"><b>.gitignore</b></td><td class="d">「これはGitで管理しない」という指定ファイル。パスワードを置く <code>.env.local</code> などを除外します。<em>▸ 触らなくて大丈夫です</em></td></tr>
           <tr><td class="t"><b>GitHub App</b></td><td class="d">GitHubに機能を足す連携アプリ。<b>今日つなぐClaudeがこれです。</b>「認可（Authorized）」だけでは書き込めず、<b>「インストール（Installed）」</b>が必要です。<em>▸ STEP3</em></td></tr>
+          <tr><td class="t"><b>プレビューデプロイ</b><span>preview</span></td><td class="d">PRを作ると自動で発行される<b>確認用のURL</b>。本番とは別なので、<b>Mergeする前に動きを試せます。</b><em>▸ STEP8</em></td></tr>
           <tr><td class="t"><b>GitHub Pages</b></td><td class="d">リポジトリの中身を、そのままWebサイトとして公開できる機能。<em>▸ このページ自体がそれです</em></td></tr>
           <tr><td class="t"><b>Fork</b><span>フォーク</span></td><td class="d">他人のリポジトリを自分用に丸ごとコピーすること。今日は使いません（テンプレートを使います）。<em>▸ 今日は使いません</em></td></tr>
           <tr><td class="t"><b>Issue</b><span>イシュー</span></td><td class="d">課題や要望を書き留めておくメモ機能。<em>▸ 今日は使いません</em></td></tr>
@@ -791,6 +839,60 @@
       });
       show('サンプルを入れました。「記入例を見る」で展開後の姿が見られます');
     });
+
+    // 入力の質をその場でフィードバック（止めない・減点しない）
+    var RULES = {
+      q1: {
+        checks: [
+          { test: function(v){ return /(さん|様|社長|店長|教室長|先生|代表|部長|課長|オーナー|院長|マスター)/.test(v); },
+            label: '呼べる名前' },
+          { test: function(v){ return v.length >= 12; }, label: '関係性' }
+        ],
+        ok: '具体的です。<b>この人に向けた言葉づかい</b>で作られます。',
+        tip: '<b>「〇〇工務店の田中さん」</b>のように、呼べる名前まで下ろすと精度が上がります。どこで知り合ったかも1言あると、届け方の仮説が変わります。'
+      },
+      q2: {
+        checks: [
+          { test: function(v){ return /[0-9０-９]/.test(v); }, label: '数字' },
+          { test: function(v){ return /(分|時間|件|回|人|日|週|月|%|％)/.test(v); }, label: '単位' },
+          { test: function(v){ return v.length >= 20; }, label: '作業の具体' }
+        ],
+        ok: '数字が入っています。<b>画面に出す項目と操作が、ほぼこのまま決まります。</b>',
+        tip: '<b>「何を・どれくらいの頻度で・何分かけて」</b>を足してください。<br>例：「月に5件」「1件あたり2時間」。ここが要件定義書の<b>データ項目と操作</b>になります。'
+      },
+      q3: {
+        checks: [
+          { test: function(v){ return /(分か|わか|見え|減|なくな|届|出る|出せ|済む|終わ|早く|すぐ)/.test(v); },
+            label: '状態で書けている' },
+          { test: function(v){ return v.length >= 8; }, label: '長さ' }
+        ],
+        ok: '状態で書けています。<b>これがそのまま完成条件</b>になります。',
+        tip: '<b>「〜が分かる」「〜が減る」</b>の形にしてみてください。<br>「アプリが欲しい」だと作るものが決まりませんが、「今日返信する人が分かる」なら決まります。'
+      }
+    };
+    function grade(){
+      ['q1','q2','q3'].forEach(function(id, i){
+        var el = document.getElementById(id);
+        var v = (el.value || '').trim();
+        var box = document.getElementById('h' + (i+1));
+        var meter = document.getElementById('m' + (i+1));
+        var r = RULES[id];
+        var passed = r.checks.filter(function(c){ return c.test(v); }).length;
+
+        meter.innerHTML = r.checks.map(function(c, j){
+          return '<span class="qdot' + (j < passed ? ' on' : '') + '"></span>';
+        }).join('');
+
+        if (!v) { box.hidden = true; return; }
+        box.hidden = false;
+        var full = passed >= r.checks.length;
+        box.className = 'fh ' + (full ? 'ok' : 'tip');
+        box.innerHTML = '<span class="ic">' + (full ? '✓' : '💡') + '</span><span>' +
+                        (full ? r.ok : r.tip) + '</span>';
+      });
+    }
+    qs.forEach(function(el){ el.addEventListener('input', grade); });
+    grade();
 
     // プレビュー（入力を強調表示）
     var pv = document.getElementById('mdPreview');
