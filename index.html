@@ -495,7 +495,16 @@
           <li><b>出口の3点</b>（誰が払うか／どう届くか／受け取れるか）</li>
         </ul>
 
-        <div class="done-cond">🔮 が付いた項目は「<b>まだ確かめていないこと</b>」です。<b>これがそのまま宿題になります。</b></div>
+        <p style="margin-top:16px">終わると、<b>チャットに読める形で要約が出ます。</b>
+          ファイルを開かなくても、ここだけ見れば判断できます。</p>
+        <ul>
+          <li>あなたが書いた3行</li>
+          <li>Claudeが埋めた仮説の一覧（🔮 付き）</li>
+          <li><b>次回までに確かめること 3つ</b>（そのまま使える質問文つき）</li>
+        </ul>
+
+        <div class="done-cond"><b>完了条件</b>　チャットに要約が出て、末尾に「<b>次は <code>/spec</code></b>」と案内されている<br>
+          🔮 が付いた項目は「<b>まだ確かめていないこと</b>」です。<b>これがそのまま宿題になります。</b></div>
 
         <details class="expl">
           <summary>応用｜このコマンドを、他のプロジェクトでも使うには</summary>
@@ -607,7 +616,9 @@
           <li>やらないこと／<b>完成条件</b>（見れば判定できる形で3つ）</li>
         </ul>
 
-        <div class="done-cond"><b>完了条件</b>　<code>docs/03_spec.md</code> ができ、<b>完成条件が3つ</b>書かれている</div>
+        <p style="margin-top:16px">こちらも<b>チャットに要約が出ます。</b>
+          「作るもの／画面／操作3つ／<b>作らないもの</b>／できあがりの判定」が一覧で読めます。</p>
+        <div class="done-cond"><b>完了条件</b>　チャットに要約が出て、<b>「できあがりの判定」が3つ</b>書かれている</div>
 
         <details class="expl">
           <summary>応用｜要件定義書があると、この先どう変わるか</summary>
@@ -642,6 +653,7 @@
               <tr><td><b>操作は3つまで</b></td><td>4つ目から急に複雑になる</td></tr>
               <tr><td><b>データは端末に保存</b></td><td>リロードしても消えない</td></tr>
               <tr><td>ライブラリ追加なし</td><td>ビルドが落ちる原因を作らない</td></tr>
+              <tr><td><b>AIっぽい見た目にしない</b></td><td><code>DESIGN.md</code> の「やらないこと」に従う</td></tr>
             </tbody>
           </table>
         </div>
@@ -668,6 +680,12 @@
             </div>
             <p style="margin-top:14px"><b>先に「動くもの」を持っておくと、#2・#3が全部これの続きになります。</b>
               作り直しではなく、載せ替えていく形です。</p>
+            <p><b>見た目について。</b>テンプレートには <code>DESIGN.md</code> という
+              「<b>AIが作った感を出さないための決めごと</b>」が入っています。
+              紫のグラデーション、中央揃えの巨大な見出し、同じカードを3〜6枚並べる、絵文字アイコン ——
+              こうした<b>実測で特定された「AIの指紋」</b>を避けるルールです。<br>
+              Claudeは実装時にこれを読むので、放っておいても平均よりは崩れません。
+              <b>見た目を変えたいときは、個別のページではなく <code>app/globals.css</code> の変数を変えるよう頼んでください。</b></p>
           </div>
         </details>
 
@@ -836,6 +854,7 @@
       <div class="file"><span class="fn">01_customer.md</span><span class="fd">はじめの3行（記入用）</span><a class="btn" href="files/01_customer.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">01_customer.sample.md</span><span class="fd">記入例 — 3行から仮説が埋まった状態</span><a class="btn" href="files/01_customer.sample.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">03_spec.sample.md</span><span class="fd">要件定義書の記入例 — 実装まで確認済み</span><a class="btn" href="files/03_spec.sample.md" download>ダウンロード</a></div>
+      <div class="file"><span class="fn">DESIGN.md</span><span class="fd">AIっぽい見た目を避けるための決めごと</span><a class="btn" href="files/DESIGN.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">CLAUDE.md</span><span class="fd">Claude Code が毎回読む指示書</span><a class="btn" href="files/CLAUDE.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">CLAUDE.sample.md</span><span class="fd">記入例 — 埋まっているとどう変わるか</span><a class="btn" href="files/CLAUDE.sample.md" download>ダウンロード</a></div>
       <div class="file"><span class="fn">WORKSHOP_GUIDE.md</span><span class="fd">受講者ガイド（考え方・手順・宿題の全部入り）</span><a class="btn" href="files/WORKSHOP_GUIDE.md" download>ダウンロード</a></div>
