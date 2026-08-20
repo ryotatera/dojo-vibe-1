@@ -318,9 +318,9 @@
     <p class="sub">あなたが書くのは<b>3行だけ（5分）</b>。残りは Claude Code が仮説で埋めます。</p>
 
     <div class="step" data-k="s5">
-      <div class="step-h"><div class="step-n">5</div><h3>3行だけ書く</h3><span class="time">5分</span></div>
+      <div class="step-h"><div class="step-n">5</div><h3>3行だけ書いて、Claudeに渡す</h3><span class="time">5分</span></div>
       <div class="step-b">
-        <p><b>ここに直接入力してください。</b>入力した内容がそのまま <code>docs/01_customer.md</code> になります。</p>
+        <p><b>ここに直接入力してください。</b>入力内容はそのまま Claude への指示になります。<b>GitHubは触りません。</b></p>
 
         <div class="form">
           <div class="fq">
@@ -340,34 +340,36 @@
           </div>
 
           <div class="form-foot">
-            <button class="btn primary" id="copyMd">この内容をコピー</button>
-            <button class="btn" id="dlMd">.md でダウンロード</button>
+            <button class="btn primary" id="copyMd">Claudeへの指示をコピー</button>
+            <button class="btn" id="dlMd">.md で手元に保存</button>
+            <button class="btn" id="fillSample">サンプルを入れる</button>
             <a class="btn" href="files/01_customer.sample.md" download>記入例を見る</a>
             <span class="saved" id="savedMsg"></span>
           </div>
 
           <details class="preview" open>
-            <summary>生成されるファイル <code>docs/01_customer.md</code><span class="cnt" id="pvCnt"></span></summary>
+            <summary>Claudeに送る指示 <code>docs/01_customer.md</code> を更新<span class="cnt" id="pvCnt"></span></summary>
             <pre id="mdPreview"></pre>
             <div class="pv-note">
-              <b style="color:var(--accent)">オレンジの部分</b>があなたの入力です。この内容がそのままファイルになります。
-              残りは次のステップで <code>/kickoff</code> を打つと Claude が埋めます。
+              <b style="color:var(--accent)">オレンジの部分</b>があなたの入力です。
+              この指示をClaudeに送ると、<code>docs/01_customer.md</code> がこの内容で更新されます。
+              <b>GitHubを手で編集する必要はありません。</b>
             </div>
           </details>
         </div>
 
         <div class="paste">
-          <b>コピーしたあと：</b>GitHubに貼り付けます（ダウンロードより速いです）
+          <b>コピーしたあと：</b><a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> の入力欄に貼って送信するだけです。
           <ol>
-            <li>自分のリポジトリ → <code>docs</code> → <code>01_customer.md</code> を開く</li>
-            <li>右上の <b>鉛筆アイコン</b>（Edit this file）</li>
-            <li>中身を<b>全選択して削除</b> → 貼り付け</li>
-            <li>下の <b>Commit changes</b></li>
+            <li>Claude が <code>docs/01_customer.md</code> をこの内容で更新します</li>
+            <li>続けて<b>残りを仮説（🔮）で埋めます</b></li>
           </ol>
+          <b style="color:var(--accent)">GitHubを開いて編集する必要はありません。</b>
+          ファイルの書き換えは全部Claudeがやります。
         </div>
 
         <p class="warn" style="margin-top:14px">⚠ 埋まらない欄は空のままで構いません。完璧に書こうとしないでください。残りは次のステップでClaudeが埋めます。</p>
-        <div class="done-cond"><b>完了条件</b>　1つでも埋めて Commit した</div>
+        <div class="done-cond"><b>完了条件</b>　1つでも埋めて、Claudeに指示を送った</div>
         <label class="check"><input type="checkbox" data-step="s5"> できた</label>
       </div>
     </div>
@@ -375,7 +377,8 @@
     <div class="step" data-k="s6">
       <div class="step-h"><div class="step-n">6</div><h3>残りは Claude に仮説で埋めてもらう</h3><span class="time">5分</span></div>
       <div class="step-b">
-        <p>claude.ai/code で、これを打つだけです。</p>
+        <p>STEP5の指示に含まれているので、<b>自動で続けて実行されます。</b>
+           もし止まっていたら、これを打ってください。</p>
         <div class="code" id="p2">/kickoff</div>
         <div class="btns"><button class="btn primary" data-copy="p2">コピー</button></div>
         <p style="margin-top:14px">3行から、Claude が<b>仮説</b>で以下を組み立てます。</p>
@@ -611,12 +614,28 @@
       ].join('\n');
     }
 
+    // サンプル投入（講師デモ用／書き方に迷ったとき用）
+    var SAMPLE = {
+      q1: '〇〇進学ゼミ 三鷹校の田中教室長。前職の営業先で、今もLINEでつながっている。',
+      q2: '体験授業の問い合わせがLINEと電話とHPからバラバラに来て、返信漏れが月2〜3件起きている。',
+      q3: '今日返信すべき人が、一目で分かるといい。'
+    };
+    document.getElementById('fillSample').addEventListener('click', function(){
+      var filled = qs.some(function(el){ return (el.value||'').trim(); });
+      if (filled && !confirm('入力中の内容をサンプルで置き換えます。よろしいですか？')) return;
+      qs.forEach(function(el){
+        el.value = SAMPLE[el.id];
+        el.dispatchEvent(new Event('input', {bubbles:true}));
+      });
+      show('サンプルを入れました。「記入例を見る」で展開後の姿が見られます');
+    });
+
     // プレビュー（入力を強調表示）
     var pv = document.getElementById('mdPreview');
     var pvCnt = document.getElementById('pvCnt');
     function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     function renderPreview(){
-      var md = buildMd();
+      var md = buildPrompt();
       var html = md.split('\n').map(function(line){
         var m = line.match(/^\*\*A:\*\* ?(.*)$/);
         if (m) {
@@ -631,7 +650,7 @@
       }).join('\n');
       pv.innerHTML = html;
       var filled = qs.filter(function(el){ return (el.value||'').trim(); }).length;
-      pvCnt.textContent = filled + ' / 3 入力済み・' + md.length + ' 文字';
+      pvCnt.textContent = filled + ' / 3 入力済み';
     }
     qs.forEach(function(el){ el.addEventListener('input', renderPreview); });
     renderPreview();
@@ -642,10 +661,21 @@
       return true;
     }
 
+    function buildPrompt(){
+      return [
+'docs/01_customer.md を、下の「ここから」〜「ここまで」の内容で丸ごと更新してください。',
+'そのあと続けて /kickoff の手順で、残りをあなたが仮説で埋めてください（🔮 を付けて、確かめ方も1行添える）。',
+'',
+'--- ここから ---',
+buildMd(),
+'--- ここまで ---'
+      ].join('\n');
+    }
+
     document.getElementById('copyMd').addEventListener('click', function(){
       if (!warnEmpty()) return;
-      var text = buildMd(), btn = this;
-      function ok(){ show('コピーしました。GitHubに貼り付けてください');
+      var text = buildPrompt(), btn = this;
+      function ok(){ show('コピーしました。claude.ai/code に貼ってください');
         var o = btn.textContent; btn.textContent = '✓ コピー済み'; btn.classList.add('ok');
         setTimeout(function(){ btn.textContent = o; btn.classList.remove('ok'); }, 1800); }
       if (navigator.clipboard && window.isSecureContext) {
