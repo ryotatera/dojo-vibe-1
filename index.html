@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vibeコーディング講座 #1 ｜ 当日の進め方</title>
+<meta name="description" content="ブラウザだけで、自分の事業のサイトを本番公開する。手順・コピー用プロンプト・配布ファイルを1ページにまとめました。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF7; --surface:#FFFFFF; --tint:#F4F2EC; --tint2:#FCF6EA;
+    --dark:#1F1F1F; --text:#1F1F1F; --sub:#4A4A4A; --sub2:#6B6B6B; --weak:#A8A29A;
+    --rule:#E5E2DA; --accent:#D97706; --accent-tint:#FBEFD9;
+    --good:#2F7D52; --good-tint:#E6F0E9; --bad:#B23A2A;
+    --font:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#111615; --surface:#181E1D; --tint:#1F2726; --tint2:#2A2417;
+      --dark:#0C100F; --text:#E7EBE9; --sub:#C2C8C6; --sub2:#96A19E; --weak:#7C8582;
+      --rule:#2B3331; --accent:#E0913B; --accent-tint:#2A2114;
+      --good:#6CB98C; --good-tint:#1C2A22; --bad:#E2907A;
+    }
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
+       font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px}
+  a{color:var(--accent)}
+
+  header{padding:64px 0 36px;border-bottom:2px solid var(--text)}
+  .bar{width:44px;height:5px;background:var(--accent);margin-bottom:26px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--accent);margin:0 0 14px}
+  h1{font-size:clamp(28px,4.6vw,40px);line-height:1.35;font-weight:800;margin:0 0 16px;letter-spacing:-.02em}
+  .lead{font-size:16px;color:var(--sub);margin:0}
+
+  .goal{background:var(--dark);border-radius:6px;padding:26px 28px;margin:32px 0 0}
+  .goal h2{margin:0 0 16px;font-size:14px;font-weight:700;letter-spacing:.1em;color:var(--accent)}
+  .goal ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+  .goal li{color:#D6DBD9;font-size:14.5px;display:flex;gap:10px;align-items:flex-start}
+  .goal li b{color:#fff;font-weight:700}
+  .goal .n{color:var(--accent);font-family:var(--mono);font-weight:700;flex:none}
+
+  section{padding:56px 0;border-bottom:1px solid var(--rule)}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--accent);margin:0 0 8px}
+  h2.sec{font-size:clamp(21px,3vw,27px);font-weight:800;line-height:1.45;margin:0 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--sub2);font-size:14.5px;margin:0 0 30px}
+
+  /* step */
+  .step{background:var(--surface);border:1px solid var(--rule);border-radius:6px;
+        padding:24px 26px;margin-bottom:16px;position:relative}
+  .step.done{border-color:var(--good);background:var(--good-tint)}
+  .step-h{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+  .step-n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent-tint);
+          color:var(--accent);font-family:var(--mono);font-size:13px;font-weight:700;
+          display:grid;place-items:center;margin-top:2px}
+  .step.done .step-n{background:var(--good);color:#fff}
+  .step h3{margin:0;font-size:17.5px;font-weight:800;line-height:1.5}
+  .step .time{font-family:var(--mono);font-size:11.5px;color:var(--weak);margin-left:auto;flex:none;padding-top:6px}
+  .step-b{padding-left:44px}
+  .step p{margin:8px 0 0;font-size:14.5px;color:var(--sub)}
+  .step ol,.step ul{margin:10px 0 0;padding-left:1.35em;font-size:14.5px;color:var(--sub)}
+  .step li{margin-bottom:5px}
+  .warn{color:var(--bad);font-weight:700}
+
+  .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13px;
+       font-weight:700;padding:9px 15px;border-radius:5px;border:1px solid var(--rule);
+       background:var(--bg);color:var(--text);text-decoration:none;cursor:pointer;
+       transition:.15s}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{opacity:.88;color:#fff}
+  .btn.ok{background:var(--good);border-color:var(--good);color:#fff}
+
+  .code{background:var(--dark);color:#E7EBE9;border-radius:5px;padding:16px 18px;
+        margin-top:14px;font-family:var(--mono);font-size:12.5px;line-height:1.85;
+        white-space:pre-wrap;word-break:break-word}
+
+  .done-cond{margin-top:14px;padding:11px 15px;background:var(--tint2);border-radius:5px;
+             font-size:13.5px;color:var(--sub)}
+  .done-cond b{color:var(--accent)}
+
+  .check{display:flex;align-items:center;gap:9px;margin-top:16px;cursor:pointer;
+         font-size:13.5px;font-weight:700;color:var(--sub2);user-select:none}
+  .check input{width:17px;height:17px;accent-color:var(--good);cursor:pointer}
+
+  /* gate */
+  .gate{background:var(--tint);border:2px solid var(--accent);border-radius:6px;padding:26px 28px;margin:8px 0 16px}
+  .gate h3{margin:0 0 6px;font-size:18px;font-weight:800;color:var(--accent)}
+  .gate p{margin:0 0 16px;font-size:14px;color:var(--sub)}
+  .gate ul{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+  .gate li{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700}
+  .gate li small{font-weight:400;color:var(--sub2);font-size:12.5px;margin-left:auto;text-align:right}
+  .gate input{width:17px;height:17px;accent-color:var(--good);cursor:pointer;flex:none}
+
+  /* tables */
+  .scroll{overflow-x:auto;margin-top:14px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:460px}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.7}
+  thead th{font-size:11.5px;letter-spacing:.06em;color:var(--weak);background:var(--tint);white-space:nowrap}
+  td b{color:var(--text)}
+
+  .files{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+  .file{background:var(--surface);padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .file .fn{font-family:var(--mono);font-size:13px;font-weight:700}
+  .file .fd{font-size:12.5px;color:var(--sub2);flex:1;min-width:180px}
+
+  /* form */
+  .form{background:var(--tint);border:1px solid var(--rule);border-radius:6px;padding:22px 24px;margin-top:16px}
+  .fq{margin-bottom:18px}
+  .fq:last-of-type{margin-bottom:0}
+  .fq label{display:block;font-size:14.5px;font-weight:800;margin-bottom:4px}
+  .fq .hint{display:block;font-size:12.5px;color:var(--sub2);margin-bottom:8px;font-weight:400}
+  .fq textarea{width:100%;font-family:inherit;font-size:14.5px;line-height:1.75;color:var(--text);
+    background:var(--surface);border:1px solid var(--rule);border-radius:5px;padding:11px 13px;
+    resize:vertical;min-height:52px}
+  .fq textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+  .fq textarea::placeholder{color:var(--weak)}
+  .form-foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:18px;
+    padding-top:16px;border-top:1px solid var(--rule)}
+  .saved{font-size:12px;color:var(--good);font-weight:700;margin-left:auto}
+  .paste{margin-top:14px;padding:13px 16px;background:var(--tint2);border-radius:5px;font-size:13.5px;color:var(--sub)}
+  .paste b{color:var(--accent)}
+  .paste ol{margin:8px 0 0;padding-left:1.3em}
+  .paste li{margin-bottom:3px}
+
+  /* preview */
+  .preview{margin-top:16px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);overflow:hidden}
+  .preview summary{cursor:pointer;padding:13px 16px;font-size:13.5px;font-weight:700;
+    color:var(--sub);list-style:none;display:flex;align-items:center;gap:9px;user-select:none}
+  .preview summary::-webkit-details-marker{display:none}
+  .preview summary::before{content:"▶";font-size:10px;color:var(--accent);transition:.15s}
+  .preview[open] summary::before{transform:rotate(90deg)}
+  .preview summary code{background:var(--tint);border-radius:3px;padding:2px 7px;font-size:12px;color:var(--accent)}
+  .preview summary .cnt{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--weak);font-weight:400}
+  .preview pre{margin:0;padding:18px 20px;background:var(--dark);color:#D6DBD9;
+    font-family:var(--mono);font-size:12px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+    max-height:420px;overflow-y:auto;border-top:1px solid var(--rule)}
+  .preview pre .hl{color:#FFD79A;font-weight:700;background:rgba(217,119,6,.16);
+    border-radius:2px;padding:0 3px}
+  .preview pre .cm{color:#6E7A77}
+  .preview pre .hd{color:#8FD3C4;font-weight:700}
+  .pv-note{font-size:12.5px;color:var(--sub2);padding:11px 16px;background:var(--tint2);border-top:1px solid var(--rule)}
+
+  .note{font-size:13px;color:var(--sub2);margin-top:12px}
+  footer{padding:44px 0 72px;font-size:13px;color:var(--weak)}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(80px);
+         background:var(--dark);color:#fff;padding:11px 22px;border-radius:6px;font-size:13.5px;
+         font-weight:700;opacity:0;transition:.25s;pointer-events:none;z-index:99}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media(max-width:620px){
+    .step-b{padding-left:0}
+    .step .time{margin-left:0;width:100%;padding-top:0}
+    .step-h{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="bar"></div>
+    <p class="eyebrow">vibeコーディング講座（寺門回）#1</p>
+    <h1>当日の進め方</h1>
+    <p class="lead">上から順に進めてください。コードは1文字も書きません。<br>
+      やることは「指示する」「見る」「OKを出す」の3つだけです。</p>
+
+    <div class="goal">
+      <h2>帰るときに、この4つが揃っていれば成功です</h2>
+      <ul>
+        <li><span class="n">01</span><span><b>自分のURLが開く</b> — 誰のブラウザからでも</span></li>
+        <li><span class="n">02</span><span><b>トップページが自分の題材になっている</b> — テンプレの初期文言が残っていない</span></li>
+        <li><span class="n">03</span><span><b>顧客が書いてある</b> — 空欄があってもよい。空欄が宿題になる</span></li>
+        <li><span class="n">04</span><span><b>自分の指示で1回以上、中身が変わった</b> — 指示 → PR → Merge → 反映</span></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">BEFORE YOU START</p>
+    <h2 class="sec">始める前に、2つだけ確認</h2>
+    <p class="sub">どちらも当日その場では用意できません。まだの方はSlackで声をかけてください。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>必要なもの</th><th>確認方法</th></tr></thead>
+        <tbody>
+          <tr><td><b>Claude の有料プラン</b><br>（Pro または Max）</td>
+              <td><a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> → 設定 → プラン<br>「Pro」か「Max」と表示されていればOK</td></tr>
+          <tr><td><b>GitHub アカウント</b><br>（無料）</td>
+              <td><a href="https://github.com" target="_blank" rel="noopener">github.com</a> にログインできればOK</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Vercel は当日その場で作ります（GitHubでログインするだけ）。インストール作業は<b>1件もありません</b>。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">実践① ｜ 30分</p>
+    <h2 class="sec">環境をそろえて、1往復する</h2>
+    <p class="sub">まず「動く状態」を全員でそろえます。中身は次のパートで自分のものにします。</p>
+
+    <div class="step" data-k="s1">
+      <div class="step-h"><div class="step-n">1</div><h3>自分専用のリポジトリを作る</h3><span class="time">3分</span></div>
+      <div class="step-b">
+        <p>配布されたテンプレートから、自分のコピーを1つ作ります。</p>
+        <ol>
+          <li>下のボタンでテンプレートを開く</li>
+          <li>緑色の <b>Use this template</b> → <b>Create a new repository</b></li>
+          <li>名前は<b>英数字とハイフンだけ</b>（例: <code>my-first-site</code>）</li>
+          <li><b>Public</b> を選んで <b>Create repository</b></li>
+        </ol>
+        <p class="warn">⚠ 名前に日本語や記号を入れると、あとで公開に失敗します。</p>
+        <div class="btns">
+          <a class="btn primary" href="https://github.com/ryotatera/dojo-vibe-starter" target="_blank" rel="noopener" id="tpl">テンプレートを開く ↗</a>
+        </div>
+        <div class="done-cond"><b>完了条件</b>　GitHubの自分のアカウント配下にリポジトリが表示されている</div>
+        <label class="check"><input type="checkbox" data-step="s1"> できた</label>
+      </div>
+    </div>
+
+    <div class="step" data-k="s2">
+      <div class="step-h"><div class="step-n">2</div><h3>中身を作る前に、URLを先に取ってしまう</h3><span class="time">7分</span></div>
+      <div class="step-b">
+        <p>先に公開してしまうのがコツです。あとは中身を差し替えるだけになります。</p>
+        <ol>
+          <li>Vercel を開いて <b>Continue with GitHub</b></li>
+          <li><b>Add New… → Project</b></li>
+          <li>STEP1 で作ったリポジトリの <b>Import</b></li>
+          <li>設定は<b>何も触らず</b> <b>Deploy</b> → 1〜2分待つ</li>
+        </ol>
+        <div class="btns"><a class="btn primary" href="https://vercel.com/new" target="_blank" rel="noopener">Vercel を開く ↗</a></div>
+        <div class="done-cond"><b>完了条件</b>　<code>https://xxxxx.vercel.app</code> がブラウザで開く　→ <b>URLをSlackに貼ってください</b></div>
+        <label class="check"><input type="checkbox" data-step="s2"> できた</label>
+      </div>
+    </div>
+
+    <div class="step" data-k="s3">
+      <div class="step-h"><div class="step-n">3</div><h3>Claude Code に、そのリポジトリを見せる</h3><span class="time">5分</span></div>
+      <div class="step-b">
+        <ol>
+          <li>claude.ai/code を開く</li>
+          <li>GitHub接続を求められたら <b>Claude GitHub App</b> をインストールして許可</li>
+          <li>入力欄の下のリポジトリ選択で、STEP1 のリポジトリを選ぶ</li>
+        </ol>
+        <p>パソコン側では何も動きません。クラウド上にコピーが用意され、そこでClaudeが作業します。</p>
+        <div class="btns"><a class="btn primary" href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code を開く ↗</a></div>
+        <div class="done-cond"><b>完了条件</b>　入力欄の下に、自分のリポジトリ名が表示されている</div>
+        <label class="check"><input type="checkbox" data-step="s3"> できた</label>
+      </div>
+    </div>
+
+    <div class="step" data-k="s4">
+      <div class="step-h"><div class="step-n">4</div><h3>1往復してみる ── 指示には型がある</h3><span class="time">15分</span></div>
+      <div class="step-b">
+        <p><b>4つ埋めれば、だいたい通ります。</b>新人に仕事を頼むときと同じです。違うのは、やり直しがタダなことだけ。</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th></th><th>何を</th><th>下の例だと</th></tr></thead>
+            <tbody>
+              <tr><td><b>① 対象</b></td><td>どのファイルを触るのか</td><td><code>app/page.tsx</code></td></tr>
+              <tr><td><b>② やること</b></td><td>1回の指示に1つだけ</td><td>トップページを書き換える</td></tr>
+              <tr><td><b>③ 条件</b></td><td>守ってほしいこと</td><td>見出し1つ・説明3行・ボタン1つ</td></tr>
+              <tr><td><b>④ 禁止</b></td><td>やらないでほしいこと</td><td>新しいライブラリを追加しない</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code" id="p1">app/page.tsx のトップページを、見出し1つ・説明3行・CTAボタン1つのシンプルな構成に書き換えてください。
+条件：色とフォントは app/globals.css の変数を使う／新しいライブラリは追加しない</div>
+        <div class="btns"><button class="btn primary" data-copy="p1">プロンプトをコピー</button></div>
+        <p style="margin-top:16px">送ったあとの流れ：</p>
+        <ol>
+          <li><code>+42 -18</code> のような<b>差分</b>が出る → クリックして中身を見る</li>
+          <li>納得したら <b>Create PR</b></li>
+          <li>GitHubで <b>Merge pull request</b></li>
+          <li>2〜3分後、自分のURLをリロード</li>
+        </ol>
+        <div class="done-cond"><b>完了条件</b>　自分の指示で、公開中のサイトが1回変わった</div>
+        <label class="check"><input type="checkbox" data-step="s4"> できた</label>
+      </div>
+    </div>
+
+    <div class="gate">
+      <h3>✋ ここでいったん止まります</h3>
+      <p>4つ揃っていますか？ <b>1つでも欠けていたら、次に進む前にSlackで声をかけてください。</b>ここが揃わないと後半が動きません。</p>
+      <ul>
+        <li><input type="checkbox" data-step="g1"> 自分のリポジトリがある <small>GitHubの自分のアカウント配下</small></li>
+        <li><input type="checkbox" data-step="g2"> 自分のURLが開く <small>https://xxx.vercel.app</small></li>
+        <li><input type="checkbox" data-step="g3"> claude.ai/code にリポジトリが出ている <small>入力欄の下に表示</small></li>
+        <li><input type="checkbox" data-step="g4"> 指示 → PR → Merge を1往復した <small>サイトが1回変わった</small></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">実践② ｜ 25分</p>
+    <h2 class="sec">ここからが本体 ── 自分の事業のサイトにする</h2>
+    <p class="sub">あなたが書くのは<b>3行だけ（5分）</b>。残りは Claude Code が仮説で埋めます。</p>
+
+    <div class="step" data-k="s5">
+      <div class="step-h"><div class="step-n">5</div><h3>3行だけ書く</h3><span class="time">5分</span></div>
+      <div class="step-b">
+        <p><b>ここに直接入力してください。</b>入力した内容がそのまま <code>docs/01_customer.md</code> になります。</p>
+
+        <div class="form">
+          <div class="fq">
+            <label for="q1">1. 誰のために作りますか</label>
+            <span class="hint">実名で1人。「30代の共働き世帯」ではなく<b>「〇〇工務店の田中さん」</b>まで下ろす</span>
+            <textarea id="q1" rows="2" placeholder="例：〇〇進学ゼミ 三鷹校の田中教室長。前職の営業先で、今もLINEでつながっている。"></textarea>
+          </div>
+          <div class="fq">
+            <label for="q2">2. その人は、何に困っていますか</label>
+            <span class="hint">1〜2行。「〜が面倒」ではなく、具体的な作業で書けるとよい</span>
+            <textarea id="q2" rows="3" placeholder="例：体験授業の問い合わせがLINEと電話とHPからバラバラに来て、返信漏れが起きている。"></textarea>
+          </div>
+          <div class="fq">
+            <label for="q3">3. 何があれば、その人は助かりますか</label>
+            <span class="hint">1行。機能名でなくてよい。「〜が分かる」「〜が届く」で書く</span>
+            <textarea id="q3" rows="2" placeholder="例：今日返信すべき人が、一目で分かるといい。"></textarea>
+          </div>
+
+          <div class="form-foot">
+            <button class="btn primary" id="copyMd">この内容をコピー</button>
+            <button class="btn" id="dlMd">.md でダウンロード</button>
+            <a class="btn" href="files/01_customer.sample.md" download>記入例を見る</a>
+            <span class="saved" id="savedMsg"></span>
+          </div>
+
+          <details class="preview" open>
+            <summary>生成されるファイル <code>docs/01_customer.md</code><span class="cnt" id="pvCnt"></span></summary>
+            <pre id="mdPreview"></pre>
+            <div class="pv-note">
+              <b style="color:var(--accent)">オレンジの部分</b>があなたの入力です。この内容がそのままファイルになります。
+              残りは次のステップで <code>/kickoff</code> を打つと Claude が埋めます。
+            </div>
+          </details>
+        </div>
+
+        <div class="paste">
+          <b>コピーしたあと：</b>GitHubに貼り付けます（ダウンロードより速いです）
+          <ol>
+            <li>自分のリポジトリ → <code>docs</code> → <code>01_customer.md</code> を開く</li>
+            <li>右上の <b>鉛筆アイコン</b>（Edit this file）</li>
+            <li>中身を<b>全選択して削除</b> → 貼り付け</li>
+            <li>下の <b>Commit changes</b></li>
+          </ol>
+        </div>
+
+        <p class="warn" style="margin-top:14px">⚠ 埋まらない欄は空のままで構いません。完璧に書こうとしないでください。残りは次のステップでClaudeが埋めます。</p>
+        <div class="done-cond"><b>完了条件</b>　1つでも埋めて Commit した</div>
+        <label class="check"><input type="checkbox" data-step="s5"> できた</label>
+      </div>
+    </div>
+
+    <div class="step" data-k="s6">
+      <div class="step-h"><div class="step-n">6</div><h3>残りは Claude に仮説で埋めてもらう</h3><span class="time">5分</span></div>
+      <div class="step-b">
+        <p>claude.ai/code で、これを打つだけです。</p>
+        <div class="code" id="p2">/kickoff</div>
+        <div class="btns"><button class="btn primary" data-copy="p2">コピー</button></div>
+        <p style="margin-top:14px">3行から、Claude が<b>仮説</b>で以下を組み立てます。</p>
+        <ul>
+          <li>その人が今どうやっているか／かかっている時間・費用</li>
+          <li>なぜ今まで誰も作らなかったのか</li>
+          <li><b>出口の3点</b>（誰が払うか／どう届くか／受け取れるか）</li>
+          <li>競合とDIY競合、選ばれる理由、やらないこと</li>
+        </ul>
+        <div class="done-cond">🔮 が付いた項目は「<b>まだ確かめていないこと</b>」です。<b>これがそのまま宿題になります。</b></div>
+        <label class="check"><input type="checkbox" data-step="s6"> できた</label>
+      </div>
+    </div>
+
+    <div class="step" data-k="s7">
+      <div class="step-h"><div class="step-n">7</div><h3>トップページを作らせる</h3><span class="time">7分</span></div>
+      <div class="step-b">
+        <p>STEP4 で覚えた<b>4つの型</b>を、そのまま自分の題材に当てます。</p>
+        <div class="code" id="p3">docs/01_customer.md を読んで、その内容に合わせて app/page.tsx のトップページを書き換えてください。
+条件：見出し1つ、説明3行、CTAボタン1つ／色とフォントは app/globals.css の変数を使う／新しいライブラリは追加しない</div>
+        <div class="btns"><button class="btn primary" data-copy="p3">プロンプトをコピー</button></div>
+        <div class="done-cond"><b>完了条件</b>　差分が出て、変更されたファイルが <code>app/page.tsx</code> だけになっている</div>
+        <label class="check"><input type="checkbox" data-step="s7"> できた</label>
+      </div>
+    </div>
+
+    <div class="step" data-k="s8">
+      <div class="step-h"><div class="step-n">8</div><h3>仕上げる ── 追加 → 修正 → 削除 の順で</h3><span class="time">8分</span></div>
+      <div class="step-b">
+        <p><b>1回の指示で1つだけ。</b>一度に全部頼むと、何が効いたのか分からなくなります。</p>
+        <ol>
+          <li><b>追加</b> — 足りない要素を1つ入れる（例：料金の説明を1行）</li>
+          <li><b>修正</b> — 文言と色を直す（例：見出しを◯◯に）</li>
+          <li><b>削除</b> — 不要な部分を消す（例：使わないセクション）</li>
+        </ol>
+        <p class="note">削除を最後にするのは、消してから足すと<b>同じものをまた作らせる</b>ことになるからです。<br>
+          3回とも、それぞれPRを分けて出してください。まとめると、どれが原因で崩れたか追えなくなります。</p>
+        <div class="done-cond"><b>完了条件</b>　Merge して、自分のURLに反映されたことを確認した</div>
+        <label class="check"><input type="checkbox" data-step="s8"> できた</label>
+      </div>
+    </div>
+
+    <div class="gate">
+      <h3>🎉 持ち帰るものの確認</h3>
+      <p>この4つが揃っていれば、今日は成功です。できた人は<b>自分のURLをSlackに貼ってください。</b></p>
+      <ul>
+        <li><input type="checkbox" data-step="f1"> 自分のURLが開く <small>誰のブラウザからでも</small></li>
+        <li><input type="checkbox" data-step="f2"> トップページが自分の題材になっている <small>初期文言が残っていない</small></li>
+        <li><input type="checkbox" data-step="f3"> docs/01_customer.md に顧客が書いてある <small>空欄があってもOK</small></li>
+        <li><input type="checkbox" data-step="f4"> 自分の指示で1回以上、中身が変わった <small>指示→PR→Merge→反映</small></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">WHEN STUCK</p>
+    <h2 class="sec">詰まったときは</h2>
+    <p class="sub">下の5つは、非エンジニアが必ず1回はやります。<b>今日この場でやっておくほうが安く済みます。</b></p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>やりがちなこと</th><th>何が起きるか</th><th>→ こうする</th></tr></thead>
+        <tbody>
+          <tr><td><b>一度に頼みすぎる</b></td><td>どこが失敗したか追えない</td><td>1回1つに割る</td></tr>
+          <tr><td><b>曖昧な言葉で頼む</b></td><td>「いい感じに」→ AIが勝手に決める</td><td>色・文言・数を書く</td></tr>
+          <tr><td><b>ライブラリを増やさせる</b></td><td>あとで動かなくなる</td><td>禁止条件に必ず入れる</td></tr>
+          <tr><td><b>全部作り直させる</b></td><td>前の良さが消える</td><td>差分で頼む</td></tr>
+          <tr><td><b>確認せずMergeする</b></td><td>どこを戻せばいいか分からない</td><td>3か所だけ見る</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scroll" style="margin-top:26px">
+      <table>
+        <thead><tr><th>症状</th><th>対処</th></tr></thead>
+        <tbody>
+          <tr><td>Vercelのビルドが失敗する</td><td>リポジトリ名に日本語・記号が入っていないか確認</td></tr>
+          <tr><td>claude.ai/code にリポジトリが出ない</td><td>GitHub → Settings → Applications → Claude → Configure で許可</td></tr>
+          <tr><td>Claudeが止まらない</td><td>停止して、指示を1つに絞って出し直す</td></tr>
+          <tr><td>Mergeしたのに変わらない</td><td>Vercel の Deployments を確認 → Cmd+Shift+R</td></tr>
+          <tr><td>Session creation failed</td><td>1分待って、もう一度送る</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">DOWNLOADS</p>
+    <h2 class="sec">配布ファイル</h2>
+    <p class="sub">テンプレートを「Use this template」すれば全部入っています。個別に見たいときはこちらから。</p>
+    <div class="files">
+      <div class="file"><span class="fn">01_customer.md</span><span class="fd">はじめの3行（記入用）</span><a class="btn" href="files/01_customer.md" download>ダウンロード</a></div>
+      <div class="file"><span class="fn">01_customer.sample.md</span><span class="fd">記入例 — 3行から仮説が埋まった状態</span><a class="btn" href="files/01_customer.sample.md" download>ダウンロード</a></div>
+      <div class="file"><span class="fn">CLAUDE.md</span><span class="fd">Claude Code が毎回読む指示書</span><a class="btn" href="files/CLAUDE.md" download>ダウンロード</a></div>
+      <div class="file"><span class="fn">CLAUDE.sample.md</span><span class="fd">記入例 — 埋まっているとどう変わるか</span><a class="btn" href="files/CLAUDE.sample.md" download>ダウンロード</a></div>
+      <div class="file"><span class="fn">WORKSHOP_GUIDE.md</span><span class="fd">受講者ガイド（考え方・手順・宿題の全部入り）</span><a class="btn" href="files/WORKSHOP_GUIDE.md" download>ダウンロード</a></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">HOMEWORK</p>
+    <h2 class="sec">宿題 ── 本体は2番です</h2>
+    <p class="sub">AIが代われない唯一の作業が2番です。</p>
+    <div class="step">
+      <div class="step-b" style="padding-left:0">
+        <ol style="font-size:15px">
+          <li style="margin-bottom:14px"><b>題材を1つ決める</b><br>
+            <span style="color:var(--sub2);font-size:13.5px">条件は1つだけ：その顧客を実名で3人挙げられること</span></li>
+          <li style="margin-bottom:14px"><b>その3人のうち1人に、15分だけ話を聞く</b><br>
+            <span style="color:var(--sub2);font-size:13.5px">聞くのは「今それをどうやっているか」だけ。解決策の話をしない／自分のアイデアを説明しない／「あったら使いますか?」と聞かない</span></li>
+          <li><b>聞いた内容で 🔮 を消す</b><br>
+            <span style="color:var(--sub2);font-size:13.5px">claude.ai/code で <code>/customer</code> を打つと、仮説を1つずつ事実に置き換えられます</span></li>
+        </ol>
+        <div class="code" id="p4">/customer</div>
+        <div class="btns"><button class="btn" data-copy="p4">コピー</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">vibeコーディング講座（寺門回）#1 ／ 進捗はこのブラウザに自動保存されます</div></footer>
+<div class="toast" id="toast">コピーしました</div>
+
+<script>
+(function(){
+  var toast = document.getElementById('toast'), t;
+  function show(msg){ toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(t); t = setTimeout(function(){ toast.classList.remove('show'); }, 1600); }
+
+  // コピー
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var el = document.getElementById(b.dataset.copy);
+      var text = el.textContent;
+      function ok(){ show('コピーしました'); var o=b.textContent; b.textContent='✓ コピー済み';
+        b.classList.add('ok'); setTimeout(function(){ b.textContent=o; b.classList.remove('ok'); },1600); }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(ok, fallback);
+      } else { fallback(); }
+      function fallback(){
+        var ta=document.createElement('textarea'); ta.value=text;
+        ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+        ta.select(); try{ document.execCommand('copy'); ok(); }catch(e){ show('コピーできませんでした'); }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  // ---- 3行フォーム ----
+  var FKEY = 'dojo-vibe-1-answers';
+  var qs = ['q1','q2','q3'].map(function(id){ return document.getElementById(id); });
+  var savedMsg = document.getElementById('savedMsg');
+
+  if (qs[0]) {
+    var ans = {};
+    try { ans = JSON.parse(localStorage.getItem(FKEY) || '{}'); } catch(e){}
+    qs.forEach(function(el){ if (ans[el.id]) el.value = ans[el.id]; });
+
+    var saveT;
+    qs.forEach(function(el){
+      el.addEventListener('input', function(){
+        ans[el.id] = el.value;
+        try { localStorage.setItem(FKEY, JSON.stringify(ans)); } catch(e){}
+        savedMsg.textContent = '✓ 自動保存しました';
+        clearTimeout(saveT);
+        saveT = setTimeout(function(){ savedMsg.textContent = ''; }, 2000);
+      });
+    });
+
+    function buildMd(){
+      function v(el){ return (el.value || '').trim(); }
+      return [
+'# はじめの3行',
+'',
+'> ⏱ **5分で書きます。3行だけです。**',
+'> 埋まらない欄は**空のままで構いません。**',
+'> このあと `/kickoff` を打つと、残りは Claude Code が**仮説**で埋めます。',
+'',
+'---',
+'',
+'## 1. 誰のために作りますか',
+'',
+'<!-- 実名で1人。会ったことがある人。「30代の共働き世帯」ではなく「〇〇工務店の田中さん」 -->',
+'',
+'**A:** ' + v(qs[0]),
+'',
+'---',
+'',
+'## 2. その人は、何に困っていますか',
+'',
+'<!-- 1〜2行。「〜が面倒」ではなく、具体的な作業で書けるとよい -->',
+'',
+'**A:** ' + v(qs[1]),
+'',
+'---',
+'',
+'## 3. 何があれば、その人は助かりますか',
+'',
+'<!-- 1行。機能名でなくてよい。「〜が分かる」「〜が届く」で書く -->',
+'',
+'**A:** ' + v(qs[2]),
+'',
+'---',
+'---',
+'',
+'# ここから下は、Claude Code が埋めます',
+'',
+'`/kickoff` を実行してください。上の3行から、以下を**仮説として**組み立てます。',
+'',
+'- 解く課題（今どうやっているか／かかっている時間・費用）',
+'- なぜ今まで誰も作らなかったのか（5類型のどれか）',
+'- 出口の3点（① 誰が払うか ② どう届くか ③ 受け取れるか）',
+'- 競合とDIY競合、選ばれる理由',
+'- やらないこと（3つ）',
+'',
+'**Claude が埋めた項目には 🔮 が付きます。**',
+'🔮 は「まだ確かめていないこと」という意味です。**これがそのまま宿題になります。**',
+'',
+'<!-- ▼▼ /kickoff の出力はここに入ります ▼▼ -->',
+'',
+'<!-- ▲▲ ここまで ▲▲ -->',
+''
+      ].join('\n');
+    }
+
+    // プレビュー（入力を強調表示）
+    var pv = document.getElementById('mdPreview');
+    var pvCnt = document.getElementById('pvCnt');
+    function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function renderPreview(){
+      var md = buildMd();
+      var html = md.split('\n').map(function(line){
+        var m = line.match(/^\*\*A:\*\* ?(.*)$/);
+        if (m) {
+          var val = m[1];
+          return '<span class="hd">**A:**</span> ' +
+            (val ? '<span class="hl">' + esc(val) + '</span>'
+                 : '<span class="cm">（未入力）</span>');
+        }
+        if (/^<!--/.test(line)) return '<span class="cm">' + esc(line) + '</span>';
+        if (/^#{1,3} /.test(line)) return '<span class="hd">' + esc(line) + '</span>';
+        return esc(line);
+      }).join('\n');
+      pv.innerHTML = html;
+      var filled = qs.filter(function(el){ return (el.value||'').trim(); }).length;
+      pvCnt.textContent = filled + ' / 3 入力済み・' + md.length + ' 文字';
+    }
+    qs.forEach(function(el){ el.addEventListener('input', renderPreview); });
+    renderPreview();
+
+    function warnEmpty(){
+      var filled = qs.filter(function(el){ return (el.value||'').trim(); }).length;
+      if (filled === 0) { show('1つでも入力してください'); return false; }
+      return true;
+    }
+
+    document.getElementById('copyMd').addEventListener('click', function(){
+      if (!warnEmpty()) return;
+      var text = buildMd(), btn = this;
+      function ok(){ show('コピーしました。GitHubに貼り付けてください');
+        var o = btn.textContent; btn.textContent = '✓ コピー済み'; btn.classList.add('ok');
+        setTimeout(function(){ btn.textContent = o; btn.classList.remove('ok'); }, 1800); }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(ok, fb);
+      } else { fb(); }
+      function fb(){
+        var ta = document.createElement('textarea'); ta.value = text;
+        ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+        ta.select(); try { document.execCommand('copy'); ok(); } catch(e){ show('コピーできませんでした'); }
+        document.body.removeChild(ta);
+      }
+    });
+
+    document.getElementById('dlMd').addEventListener('click', function(){
+      if (!warnEmpty()) return;
+      var blob = new Blob([buildMd()], { type: 'text/markdown;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = '01_customer.md';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      show('01_customer.md をダウンロードしました');
+    });
+  }
+
+  // 進捗（localStorage）
+  var KEY = 'dojo-vibe-1-progress';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){}
+  document.querySelectorAll('input[type=checkbox][data-step]').forEach(function(cb){
+    var k = cb.dataset.step;
+    if (saved[k]) { cb.checked = true; }
+    sync(cb);
+    cb.addEventListener('change', function(){
+      saved[k] = cb.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e){}
+      sync(cb);
+    });
+  });
+  function sync(cb){
+    var step = cb.closest('.step');
+    if (step) { step.classList.toggle('done', cb.checked); }
+  }
+})();
+</script>
+</body>
+</html>
