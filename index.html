@@ -1127,19 +1127,34 @@
       { re: /(予約(フォーム|受付|サイト)|お客(様|さん)が入力|一般の人が入力)/, what: 'お客さん側が入力する仕組み', to: '外部公開の入力は#3です' },
       { re: /(アプリを(出|作|開発)|App ?Store|Google ?Play|スマホアプリ)/, what: 'ネイティブアプリ', to: '今日はWebで作ります' }
     ];
+    var NARROWED = /(一覧|管理|状況|進捗|リスト|残っ|抜け|漏れ|対応|未対応|溜ま|たま)/;
     function scopeWarn(){
       var all = qs.map(function(el){ return el.value || ''; }).join(' ');
-      var box = document.getElementById('h3');
+      var q3v = (document.getElementById('q3').value || '').trim();
       var hit = SCOPE_WORDS.find(function(w){ return w.re.test(all); });
       if (!hit) return false;
+
+      // 3行目が「一覧で管理する形」になっていれば、もう絞れている
+      if (q3v && NARROWED.test(q3v)) {
+        var ok = document.getElementById('h3');
+        ok.hidden = false;
+        ok.className = 'fh ok';
+        ok.innerHTML = '<span class="ic">✓</span><span>' +
+          '<b>管理ツールの形になっています。</b>このまま作れます。<br>' +
+          '<span style="color:var(--sub2)">（「' + hit.what + '」そのものは' + hit.to +
+          '。今日はその中の「管理」の部分を作ります）</span></span>';
+        return true;
+      }
+
+      var box = document.getElementById('h3');
       box.hidden = false;
       box.className = 'fh narrow';
       box.innerHTML = '<span class="ic">📐</span><span>' +
-        '<b>「' + hit.what + '」は、今日のテンプレートでは作れません</b>（' + hit.to + '）。<br>' +
-        'そのかわり、<b>その中の「管理」の部分だけ</b>を今日作りましょう。<br>' +
-        '例：メディアを作りたい → <b>「記事の進捗管理」</b>／' +
+        '<b>「' + hit.what + '」そのものは、今日のテンプレートでは作れません</b>（' + hit.to + '）。<br>' +
+        'そのかわり、<b>その中の「管理」の部分だけ</b>を今日作ります。<br>' +
+        '例：メディア → <b>「記事の進捗管理」</b>／' +
         'ネットショップ → <b>「注文の対応状況」</b>／' +
-        '予約サイト → <b>「予約の受付管理（自分が入力する）」</b><br>' +
+        '予約サイト → <b>「予約の受付管理」</b><br>' +
         '<b>3行目を「〜が一覧で分かる」の形に書き直してみてください。</b>' +
         '</span>';
       return true;
