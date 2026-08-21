@@ -142,6 +142,20 @@
   .way{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin:16px 0}
   .way b{display:block;color:var(--text);font-size:14.5px;margin-bottom:4px}
 
+  /* 作れるもの/作れないもの */
+  .scope{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+  .scope > div{border-radius:6px;padding:16px 18px;font-size:13.5px;line-height:1.85}
+  .scope .can{background:var(--good-tint);border:1px solid color-mix(in srgb,var(--good) 25%,transparent)}
+  .scope .cant{background:var(--tint);border:1px solid var(--rule)}
+  .scope .lb{display:block;font-size:12px;font-weight:800;margin-bottom:8px}
+  .scope .can .lb{color:var(--good)}
+  .scope .cant .lb{color:var(--weak)}
+  .scope ul{margin:0;padding-left:1.2em}
+  .scope li{margin-bottom:3px}
+  .scope .cant li{color:var(--sub2)}
+  @media(max-width:640px){ .scope{grid-template-columns:1fr} }
+  .fh.narrow{background:var(--tint2);color:var(--sub2);border:1px solid var(--accent-tint)}
+
   /* 入力ヒント */
   .fh{font-size:12.5px;line-height:1.7;margin-top:7px;padding:9px 12px;border-radius:5px;
       display:flex;gap:8px;align-items:flex-start}
@@ -407,6 +421,35 @@
     <div class="step" data-k="s5">
       <div class="step-h"><div class="step-n">5</div><h3>3行だけ書く</h3><span class="time">5分</span></div>
       <div class="step-b">
+        <p><b>今日のテンプレートは「1画面の管理ツール」に特化しています。</b>
+          この形に収まる題材を選ぶと、そのまま動くところまで行けます。</p>
+
+        <div class="scope">
+          <div class="can">
+            <span class="lb">✓ 今日そのまま作れるもの</span>
+            <ul>
+              <li>問い合わせ・見積依頼の<b>管理</b></li>
+              <li>顧客・案件・在庫の<b>一覧と進捗</b></li>
+              <li>作業の<b>やること管理</b>（誰の・いつまで）</li>
+              <li>点検・巡回・訪問の<b>記録</b></li>
+            </ul>
+            <span style="display:block;margin-top:8px;font-size:12px;color:var(--sub2)">
+              共通点：<b>1種類のデータを、登録して・探して・状態を変える</b></span>
+          </div>
+          <div class="cant">
+            <span class="lb">✕ 今日は作れないもの</span>
+            <ul>
+              <li>メディア・記事サイト（→ <b>#2</b>）</li>
+              <li>マッチング・掲示板・SNS</li>
+              <li>ネットショップ・決済・課金（→ <b>#3</b>）</li>
+              <li>会員登録・ログインが要るもの（→ <b>#3</b>）</li>
+              <li>お客さん側が入力する予約フォーム</li>
+            </ul>
+            <span style="display:block;margin-top:8px;font-size:12px;color:var(--sub2)">
+              やりたいことが大きい場合は、<b>その中の「管理」の部分だけ</b>を今日作ります</span>
+          </div>
+        </div>
+
         <p>ここに直接入力してください。<b>GitHubは触りません。</b></p>
 
         <div class="form">
@@ -423,8 +466,8 @@
             <div class="fh" id="h2" hidden></div>
           </div>
           <div class="fq">
-            <label for="q3" style="display:flex;align-items:center">3. 何があれば、その人は助かりますか<span class="qmeter" id="m3"></span></label>
-            <span class="hint">1行。機能名でなくてよい。<b>「〜が分かる」「〜が減る」</b>の形で書くと、完成条件が決まります</span>
+            <label for="q3" style="display:flex;align-items:center">3. 何が「一覧で見られる」と助かりますか<span class="qmeter" id="m3"></span></label>
+            <span class="hint"><b>「〜が一覧で分かる」「〜の状況が見える」</b>の形で書きます。1画面の管理ツールとして作ります</span>
             <textarea id="q3" rows="2" placeholder="例：今日返信すべき人が、一目で分かるといい。"></textarea>
             <div class="fh" id="h3" hidden></div>
           </div>
@@ -1067,12 +1110,41 @@
         checks: [
           { test: function(v){ return /(分か|わか|見え|減|なくな|届|出る|出せ|済む|終わ|早く|すぐ)/.test(v); },
             label: '状態で書けている' },
-          { test: function(v){ return v.length >= 8; }, label: '長さ' }
+          { test: function(v){ return v.length >= 8; }, label: '長さ' },
+          { test: function(v){ return /(一覧|管理|状況|進捗|リスト|残っ|抜け|漏れ|対応|未|溜ま|たま)/.test(v); },
+            label: '一覧で管理できる形' }
         ],
         ok: '状態で書けています。<b>これがそのまま完成条件</b>になります。',
-        tip: '<b>「〜が分かる」「〜が減る」</b>の形にしてみてください。<br>「アプリが欲しい」だと作るものが決まりませんが、「今日返信する人が分かる」なら決まります。'
+        tip: '<b>「〜が一覧で分かる」「〜の状況が見える」</b>の形にしてみてください。<br>今日作るのは<b>1画面の管理ツール</b>です。「アプリが欲しい」だと決まりませんが、「今日返信する人が一覧で分かる」なら決まります。'
       }
     };
+    // 題材がテンプレートの範囲を超えていたら、絞る提案をする
+    var SCOPE_WORDS = [
+      { re: /(メディア|記事|ブログ|コラム|SEO|オウンド)/, what: 'メディア・記事サイト', to: '#2で扱います' },
+      { re: /(マッチング|掲示板|SNS|コミュニティ|出会|募集サイト)/, what: 'マッチング・投稿型', to: '複数人のデータ共有が要るので#3以降です' },
+      { re: /(EC|ネットショップ|通販|決済|課金|サブスク|カート|販売サイト)/, what: '決済・販売', to: '#3で扱います' },
+      { re: /(ログイン|会員登録|マイページ|アカウント)/, what: 'ログイン・会員機能', to: '#3で扱います' },
+      { re: /(予約(フォーム|受付|サイト)|お客(様|さん)が入力|一般の人が入力)/, what: 'お客さん側が入力する仕組み', to: '外部公開の入力は#3です' },
+      { re: /(アプリを(出|作|開発)|App ?Store|Google ?Play|スマホアプリ)/, what: 'ネイティブアプリ', to: '今日はWebで作ります' }
+    ];
+    function scopeWarn(){
+      var all = qs.map(function(el){ return el.value || ''; }).join(' ');
+      var box = document.getElementById('h3');
+      var hit = SCOPE_WORDS.find(function(w){ return w.re.test(all); });
+      if (!hit) return false;
+      box.hidden = false;
+      box.className = 'fh narrow';
+      box.innerHTML = '<span class="ic">📐</span><span>' +
+        '<b>「' + hit.what + '」は、今日のテンプレートでは作れません</b>（' + hit.to + '）。<br>' +
+        'そのかわり、<b>その中の「管理」の部分だけ</b>を今日作りましょう。<br>' +
+        '例：メディアを作りたい → <b>「記事の進捗管理」</b>／' +
+        'ネットショップ → <b>「注文の対応状況」</b>／' +
+        '予約サイト → <b>「予約の受付管理（自分が入力する）」</b><br>' +
+        '<b>3行目を「〜が一覧で分かる」の形に書き直してみてください。</b>' +
+        '</span>';
+      return true;
+    }
+
     function grade(){
       ['q1','q2','q3'].forEach(function(id, i){
         var el = document.getElementById(id);
@@ -1094,8 +1166,9 @@
                         (full ? r.ok : r.tip) + '</span>';
       });
     }
-    qs.forEach(function(el){ el.addEventListener('input', grade); });
-    grade();
+    function gradeAll(){ grade(); scopeWarn(); }
+    qs.forEach(function(el){ el.addEventListener('input', gradeAll); });
+    gradeAll();
 
     // プレビュー（入力を強調表示）
     var pv = document.getElementById('mdPreview');
@@ -1132,6 +1205,11 @@
       return [
 'docs/01_customer.md を、下の「ここから」〜「ここまで」の内容で丸ごと更新してください。',
 'そのあと続けて /kickoff の手順で、残りをあなたが仮説で埋めてください（🔮 を付けて、確かめ方も1行添える）。',
+'',
+'【今回作るものの制約】',
+'この題材を「1画面の管理ツール（1種類のデータを、登録して・探して・状態を変える）」として組み立ててください。',
+'メディア・マッチング・決済・ログイン・お客さん側からの入力は、今回は作りません。',
+'題材がそれらを含む場合は、その中の「自分が管理する部分」だけに絞り込んで、絞った理由を1行で説明してください。',
 '',
 '--- ここから ---',
 buildMd(),
